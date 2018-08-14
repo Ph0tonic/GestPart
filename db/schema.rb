@@ -25,7 +25,8 @@ ActiveRecord::Schema.define(version: 2018_08_14_103600) do
   end
 
   create_table "pdf_files", force: :cascade do |t|
-    t.string "file_id"
+    t.string "name"
+    t.string "attachement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

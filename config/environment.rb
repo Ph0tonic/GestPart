@@ -1,3 +1,6 @@
+require 'carrierwave/orm/activerecord'
+require 'carrierwave'
+
 # Load the Rails application.
 require_relative 'application'
 

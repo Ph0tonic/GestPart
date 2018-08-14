@@ -1,27 +1,30 @@
+
 <%= form_with(model: pdf_file, local: true) do |form| %>
   <% if pdf_file.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(pdf_file.errors.count, "error") %> prohibited this pdf_file from being saved:</h2>
 
-      <ul>
-      <% pdf_file.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+      <div class="alert alert-error">
+        <ul>
+        <% pdf_file.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
   <div class="field">
-    <%= form.label :filename %>
-    <%= form.text_field :filename %>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
   </div>
 
   <div class="field">
-    <%= form.label :references %>
-    <%= form.text_field :references %>
+    <%= form.label :file_id %>
+    <%= form.file_field :attachement %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Save", class:"btn btn-primary" %>
   </div>
 <% end %>

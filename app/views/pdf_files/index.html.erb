@@ -14,8 +14,8 @@
   <tbody>
     <% @pdf_files.each do |pdf_file| %>
       <tr>
-        <td><%= pdf_file.filename %></td>
-        <td><%= pdf_file.references %></td>
+        <td><%= pdf_file.name %></td>
+        <td><%= link_to "Download pdf", pdf_file.attachement_url %></td>
         <td><%= link_to 'Show', pdf_file %></td>
         <td><%= link_to 'Edit', edit_pdf_file_path(pdf_file) %></td>
         <td><%= link_to 'Destroy', pdf_file, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -27,3 +27,11 @@
 <br>
 
 <%= link_to 'New Pdf File', new_pdf_file_path %>
+
+<!-- test -->
+
+<% if !flash[:notice].blank? %>
+  <div class="alert alert-info">
+  <%= flash[:notice] %>
+  </div>
+<% end %>

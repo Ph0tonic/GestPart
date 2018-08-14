@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Filename:</strong>
-  <%= @pdf_file.filename %>
+  <strong>Name:</strong>
+  <%= @pdf_file.name %>
 </p>
 
 <p>
-  <strong>References:</strong>
-  <%= @pdf_file.references %>
+  <strong>File:</strong>
+  <%= link_to "Download file", @pdf_file.attachement_url %>
 </p>
 
 <%= link_to 'Edit', edit_pdf_file_path(@pdf_file) %> |
