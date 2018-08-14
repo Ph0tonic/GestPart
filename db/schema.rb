@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_14_103600) do
+ActiveRecord::Schema.define(version: 2018_08_14_151143) do
 
   create_table "compositors", force: :cascade do |t|
     t.string "name"
@@ -50,7 +50,9 @@ ActiveRecord::Schema.define(version: 2018_08_14_103600) do
     t.integer "publishing_house_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "storage_id"
     t.index ["publishing_house_id"], name: "index_pieces_on_publishing_house_id"
+    t.index ["storage_id"], name: "index_pieces_on_storage_id"
   end
 
   create_table "pieces_kinds", id: false, force: :cascade do |t|
@@ -64,6 +66,26 @@ ActiveRecord::Schema.define(version: 2018_08_14_103600) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "storage_types", force: :cascade do |t|
+    t.string "name"
+    t.string "icon"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "storages", force: :cascade do |t|
+    t.string "name"
+    t.string "memo"
+    t.integer "order"
+    t.integer "storage_id"
+    t.integer "storage_type_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["storage_id"], name: "index_storages_on_storage_id"
+    t.index ["storage_type_id"], name: "index_storages_on_storage_type_id"
   end
 
   create_table "voices", force: :cascade do |t|

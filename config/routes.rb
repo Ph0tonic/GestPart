@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :storages
+  resources :storage_types
   resources :pdf_files
   resources :pieces
   resources :kinds

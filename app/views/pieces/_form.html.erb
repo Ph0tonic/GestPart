@@ -36,6 +36,8 @@
     <%= form.text_field :edition %>
   </div>
 
+  <%= collection_select(:piece, :publishing_house_id, PublishingHouse.all, :id, :name, prompt: true) %>
+
   <div class="actions">
     <%= form.submit %>
   </div>
