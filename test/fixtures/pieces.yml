@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  distribution: 1
+  'no': 1
+  divers: MyText
+  edition: 
+
+two:
+  title: MyString
+  distribution: 1
+  'no': 1
+  divers: MyText
+  edition: 

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @voice.name %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @voice.number %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @voice.order %>
+</p>
+
+<%= link_to 'Edit', edit_voice_path(@voice) %> |
+<%= link_to 'Back', voices_path %>

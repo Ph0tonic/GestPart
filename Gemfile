@@ -64,3 +64,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Adding bootstrap
 gem 'bootstrap'
 gem 'jquery-rails'
+
+# Dopbox
+# gem 'dropbox_api'
+gem 'carrierwave-dropbox'
