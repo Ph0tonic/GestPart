@@ -32,8 +32,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :edition %>
-    <%= form.text_field :edition %>
+    <%= form.label :storage_id %>
+    <%= form.number_field :storage_id %>
   </div>
 
   <%= collection_select(:piece, :publishing_house_id, PublishingHouse.all, :id, :name, prompt: true) %>

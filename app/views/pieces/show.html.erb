@@ -21,8 +21,10 @@
 </p>
 
 <p>
-  <strong>Edition:</strong>
-  <%= @piece.edition %>
+  <strong>Publishing house:</strong>
+  <% if @piece.publishing_house %>
+    <%= @piece.publishing_house.name %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_piece_path(@piece) %> |

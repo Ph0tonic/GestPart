@@ -21,7 +21,8 @@
         <td><%= piece.distribution %></td>
         <td><%= piece.no %></td>
         <td><%= piece.divers %></td>
-        <td><%= piece.edition %></td>
+        <td><% if piece.publishing_house %><%= piece.publishing_house.name %>
+          <% end %></td>
         <td><%= link_to 'Show', piece %></td>
         <td><%= link_to 'Edit', edit_piece_path(piece) %></td>
         <td><%= link_to 'Destroy', piece, method: :delete, data: { confirm: 'Are you sure?' } %></td>
