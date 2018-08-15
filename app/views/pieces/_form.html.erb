@@ -1,44 +1,92 @@
+
 <%= form_with(model: piece, local: true) do |form| %>
   <% if piece.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(piece.errors.count, "error") %> prohibited this piece from being saved:</h2>
-
-      <ul>
-      <% piece.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+      <h2> prohibited this piece from being saved:</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="callout callout-danger">
+          <h5><i class="fas fa-exclamation-circle"></i> <%= pluralize(piece.errors.count, "error") %></h5>
+          <ul>
+          <% piece.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="card-title">Informations</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <%= form.label :title %>
+            <%= form.text_field :title, :class => "form-control" %>
+          </div>
+          <div class="form-group">
+            <%= form.label :publishing_house_id %>
+            <%= collection_select(:piece, :publishing_house_id, PublishingHouse.all, :id, :name, {include_blank: true}, {:class => "form-control"}) %>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <%= form.label :distribution %>
+              <%= form.number_field :distribution, :class => "form-control" %>
+            </div>
+            <div class="col-lg-6">
+              <%= form.label :no %>
+              <%= form.number_field :no, :class => "form-control" %>
+            </div>
+            <div class="col-lg-12">
+              <%= form.label :divers %>
+              <%= form.text_area :divers, :class => "form-control", placeholder: "Enter here ..." %>
+            </div>
+          </div>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <%= form.submit 'Save', :class => 'mt-2 btn btn-primary' %>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="field">
-    <%= form.label :distribution %>
-    <%= form.number_field :distribution %>
-  </div>
+      <div class="field">
+        <%= form.label :storage_id %>
+        <%= form.number_field :storage_id %>
+      </div>
+      <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+          More details
+        </a>
+      </p>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
 
-  <div class="field">
-    <%= form.label :no %>
-    <%= form.number_field :no %>
-  </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">Featured</h5>
+        </div>
+        <div class="card-body">
 
-  <div class="field">
-    <%= form.label :divers %>
-    <%= form.text_area :divers %>
-  </div>
+          <h6 class="card-title">Special title treatment</h6>
 
-  <div class="field">
-    <%= form.label :storage_id %>
-    <%= form.number_field :storage_id %>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
   </div>
+  <!-- /.row -->
 
-  <%= collection_select(:piece, :publishing_house_id, PublishingHouse.all, :id, :name, prompt: true) %>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>
