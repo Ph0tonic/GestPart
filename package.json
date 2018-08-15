@@ -1,5 +1,11 @@
 {
   "name": "GestPart",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "admin-lte": "3.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
 }

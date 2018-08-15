@@ -61,9 +61,13 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# webpacker
+gem 'webpacker'
+
 # Adding bootstrap
 gem 'bootstrap'
 gem 'jquery-rails'
+gem 'font-awesome-sass'
 
 # Dopbox
 # gem 'dropbox_api'
