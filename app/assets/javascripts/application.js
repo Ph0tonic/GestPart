@@ -17,5 +17,4 @@
 //= require activestorage
 //= require turbolinks
 //= require admin-lte/dist/js/adminlte.min.js
-//= require admin-lte/plugins/datatables/jquery.dataTables.min.js
 //= require_tree .

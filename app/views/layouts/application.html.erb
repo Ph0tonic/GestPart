@@ -9,10 +9,11 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 </head>
-
-<body>
-
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -169,40 +170,49 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Starter Pages
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="fa fa-circle nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fa fa-circle nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
-              </li>
-            </ul>
+          <li class="nav-item">
+            <%= link_to(pieces_path, class: 'nav-link' ) do %>
+              <i class="fas fa-file nav-icon"></i>
+              <p>Pieces of music</p>
+            <% end %>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-th"></i>
-              <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
+            <%= link_to(storages_path, class: 'nav-link' ) do %>
+              <i class="nav-icon fas fa-archive"></i>
+              <p>Storage</p>
+            <% end %>
           </li>
+
+
+          <li class="nav-item">
+            <%= link_to(publishing_houses_path, class: 'nav-link' ) do %>
+              <i class="fas fa-music nav-icon"></i>
+              <p>Publishing House</p>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(storage_types_path, class: 'nav-link' ) do %>
+              <i class="fas fa-music nav-icon"></i>
+              <p>Storage type</p>
+            <% end %>
+          </li>
+
+          <!-- Disabled ->
+          <li class="nav-item">
+            <%= link_to(pieces_path, class: 'nav-link' ) do %>
+              <i class="fas fa-tshirt nav-icon"></i>
+              <p>Uniforms</p>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(pieces_path, class: 'nav-link' ) do %>
+              <i class="fas fa-drum nav-icon"></i>
+              <p>Instrument</p>
+            <% end %>
+          </li>
+
+          <!---->
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -235,7 +245,7 @@
     <!-- Default to the left -->
     <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
     <script defer src="https://use.fontawesome.com/releases/v5.2.0/js/solid.js" integrity="sha384-YmNA3b9AQuWW8KZguYfqJa/YhKNTwGVD5pQc1cN0ZAVRudFFtR17HR7rooNcVXe4" crossorigin="anonymous"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.2.0/js/fontawesome.js" integrity="sha384-QcnrgQuRmocjIBY6ByWMmDvUg3HO4MSdVjY7ynJwZfvTDhVPPQOUI9TRzc6/7ZO1" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.2.0/js/fontawesome.js" integrity="sha384-QcnrgQuRmocjIBY6ByWMmDvUg3HO4MSdVjY7ynJwZfvTDhVPPQOUI9TRzc6/7ZO1" crossorigin="anonymous"></script>
   </footer>
 </div>
 </body>
