@@ -1,4 +1,4 @@
 class StorageType < ApplicationRecord
   mount_uploader :icon, IconUploader
-  has_may :storage
+  has_many :storage
 end
