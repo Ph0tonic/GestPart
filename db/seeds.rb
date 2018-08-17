@@ -8,12 +8,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
 PublishingHouse.create(name: 'Difem')
 PublishingHouse.create(name: 'Obrasso')
 PublishingHouse.create(name: 'Marc Reift')
 PublishingHouse.create(name: 'Woodbrass')
 PublishingHouse.create(name: 'Bernaerts Music')
-
 
 piece_list = [
   ['','3002','','','58','100 T !','','','',''],
@@ -87,4 +87,34 @@ piece_list = [
 
 piece_list.each do |divers, distribution, no, check, boite, title, genre, comp, arr, house|
   Piece.create( title: title, divers: divers, no: no )
+end
+
+voice_list = [
+  ['Cornet mib','','0'],
+  ['Flugelhorn','','1'],
+  ['Cornet','1','10'],
+  ['Cornet','2','11'],
+  ['Cornet','3','12'],
+  ['Althorn solo','','20'],
+  ['Althorn','1','21'],
+  ['Althorn','2','22'],
+  ['Euphonium','1','30'],
+  ['Euphonium','2','31'],
+  ['Baritone','1','32'],
+  ['Baritone','2','33'],
+  ['Trombone','1','40'],
+  ['Trombone','2','41'],
+  ['Trombone basse','','42'],
+  ['Basse mib','','50'],
+  ['Basse sib','','51'],
+  ['Percussion','1','60'],
+  ['Persussion','2','61'],
+  ['Timpani','','62'],
+  ['Glockenspiel','','63'],
+  ['Marimba','','64'],
+  ['Drums','','65']
+]
+
+voice_list.each do |name, number, order|
+  Voice.create( name: name, number: number, order: order)
 end

@@ -72,3 +72,6 @@ gem 'font-awesome-sass'
 # Dopbox
 # gem 'dropbox_api'
 gem 'carrierwave-dropbox'
+
+# Pdf management
+gem 'combine_pdf'

@@ -84,6 +84,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    combine_pdf (1.0.15)
+      ruby-rc4 (>= 0.1.5)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
     domain_name (0.5.20180417)
@@ -176,6 +178,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
+    ruby-rc4 (0.1.5)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
     sass (3.5.7)
@@ -247,6 +250,7 @@ DEPENDENCIES
   carrierwave-dropbox
   chromedriver-helper
   coffee-rails (~> 4.2)
+  combine_pdf
   font-awesome-sass
   jbuilder (~> 2.5)
   jquery-rails
