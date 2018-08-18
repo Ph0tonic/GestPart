@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_14_151143) do
+ActiveRecord::Schema.define(version: 2018_08_18_082426) do
 
   create_table "compositors", force: :cascade do |t|
     t.string "name"
@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(version: 2018_08_14_151143) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "kinds_pieces", id: false, force: :cascade do |t|
+    t.integer "kind_id", null: false
+    t.integer "piece_id", null: false
+    t.index ["kind_id", "piece_id"], name: "index_kinds_pieces_on_kind_id_and_piece_id", unique: true
+    t.index ["kind_id"], name: "index_kinds_pieces_on_kind_id"
+    t.index ["piece_id"], name: "index_kinds_pieces_on_piece_id"
   end
 
   create_table "pdf_files", force: :cascade do |t|
@@ -91,6 +99,7 @@ ActiveRecord::Schema.define(version: 2018_08_14_151143) do
   create_table "voices", force: :cascade do |t|
     t.string "name"
     t.integer "number"
+    t.string "key"
     t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

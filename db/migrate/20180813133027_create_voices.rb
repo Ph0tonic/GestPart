@@ -3,6 +3,7 @@ class CreateVoices < ActiveRecord::Migration[5.2]
     create_table :voices do |t|
       t.string :name
       t.integer :number
+      t.string :key
       t.integer :order
 
       t.timestamps

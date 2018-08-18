@@ -26,10 +26,12 @@ class PiecesController < ApplicationController
   def create
     @piece = Piece.new(piece_params)
 
+
     respond_to do |format|
       if @piece.save
-        format.html { redirect_to @piece, notice: 'Piece was successfully created.' }
-        format.json { render :show, status: :created, location: @piece }
+        format.html { redirect_to edit_piece_path(@piece), notice: 'Piece was successfully created.' }
+        # format.html { redirect_to @piece, notice: 'Piece was successfully created.' }
+        # format.json { render :show, status: :created, location: @piece }
       else
         format.html { render :new }
         format.json { render json: @piece.errors, status: :unprocessable_entity }

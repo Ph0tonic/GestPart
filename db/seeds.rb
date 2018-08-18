@@ -90,31 +90,37 @@ piece_list.each do |divers, distribution, no, check, boite, title, genre, comp, 
 end
 
 voice_list = [
-  ['Cornet mib','','0'],
-  ['Flugelhorn','','1'],
-  ['Cornet','1','10'],
-  ['Cornet','2','11'],
-  ['Cornet','3','12'],
-  ['Althorn solo','','20'],
-  ['Althorn','1','21'],
-  ['Althorn','2','22'],
-  ['Euphonium','1','30'],
-  ['Euphonium','2','31'],
-  ['Baritone','1','32'],
-  ['Baritone','2','33'],
-  ['Trombone','1','40'],
-  ['Trombone','2','41'],
-  ['Trombone basse','','42'],
-  ['Basse mib','','50'],
-  ['Basse sib','','51'],
-  ['Percussion','1','60'],
-  ['Persussion','2','61'],
-  ['Timpani','','62'],
-  ['Glockenspiel','','63'],
-  ['Marimba','','64'],
-  ['Drums','','65']
+  ['Soprano Cornet','','','0'],
+  ['Flugelhorn','','','1'],
+  ['Solo Cornet','1','','10'],
+  ['Solo Cornet','2','','11'],
+  ['Repiano Cornet','','','12'],
+  ['2nd Cornet','','','13'],
+  ['3rd Cornet','','','14'],
+  ['Solo Horn','','','20'],
+  ['1st Horn','','','21'],
+  ['2nd Horn','','','22'],
+  ['1st Baritone','','','32'],
+  ['2st Baritone','','','33'],
+  ['1st Trombone','','Sib','40'],
+  ['2nd Trombone','','Sib','41'],
+  ['Bass Trombone','','Ut','42'],
+  ['1st Trombone','','Ut','45'],
+  ['2nd Trombone','','Ut','46'],
+  ['Bass Trombone','','Sib','47'],
+  ['Euphonium','1','','50'],
+  ['Euphonium','2','','51'],
+  ['Eb Bass','','','60'],
+  ['Sib Bass','','','61'],
+  ['Percussion','1','','70'],
+  ['Persussion','2','','71'],
+  ['Persussion','3','','72'],
+  ['Timpani','','','85'],
+  ['Glockenspiel','','','86'],
+  ['Marimba','','','87'],
+  ['Drums','','','88']
 ]
 
-voice_list.each do |name, number, order|
-  Voice.create( name: name, number: number, order: order)
+voice_list.each do |name, number, key, order|
+  Voice.create( name: name, number: number, key: key, order: order)
 end
