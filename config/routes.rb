@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   resources :storages
   resources :storage_types
   resources :pdf_files
-  resources :pieces
+  resources :pieces do
+    member do
+      post 'add_file'
+    end
+  end
   resources :kinds
   resources :compositors
   resources :publishing_houses

@@ -14,6 +14,9 @@ class PdfFilesController < ApplicationController
 
   # GET /pdf_files/new
   def new
+    (params[:image_files] || []).each do |img|
+      @product.images.build(file: img)
+    end
     @pdf_file = PdfFile.new
   end
 
@@ -69,6 +72,6 @@ class PdfFilesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pdf_file_params
-      params.require(:pdf_file).permit(:name, :attachement)
+      params.require(:pdf_file).permit(:attachement, :piece_id)
     end
 end

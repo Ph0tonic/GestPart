@@ -29,11 +29,15 @@
             <%= form.text_field :name, :class => "form-control" %>
           </div>
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4">
               <%= form.label :number %>
               <%= form.number_field :number, :class => "form-control" %>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-4">
+              <%= form.label :key %>
+              <%= form.text_field :key, :class => "form-control" %>
+            </div>
+            <div class="col-lg-4">
               <%= form.label :order %>
               <%= form.number_field :order, :class => "form-control" %>
             </div>

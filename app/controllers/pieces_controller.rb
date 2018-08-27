@@ -26,6 +26,16 @@ class PiecesController < ApplicationController
   def create
     @piece = Piece.new(piece_params)
 
+    # if @piece.save
+    #    #iterate through each of the files
+    #    params[:piece][:pdf_file_data].each do |file|
+    #        @piece.pdf_files.create!(:attachement => file)
+    #        #create a document associated with the item that has just been created
+    #    end
+    #    render :show, status: :created, location: @piece
+    #  else
+    #    render json: @piece.errors, status: :unprocessable_entity
+    #  end
 
     respond_to do |format|
       if @piece.save
@@ -53,6 +63,17 @@ class PiecesController < ApplicationController
     end
   end
 
+  def add_file
+    set_piece()
+
+    logger.warn "It works!"
+    params[:piece][:pdf_file_data].each do |file|
+        @piece.pdf_files.create!(:piece_id => @piece.id, :attachement => file)
+        #create a document associated with the item that has just been created
+    end
+    redirect_to :back
+  end
+
   # DELETE /pieces/1
   # DELETE /pieces/1.json
   def destroy
@@ -71,6 +92,6 @@ class PiecesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def piece_params
-      params.require(:piece).permit(:title, :distribution, :no, :divers, :publishing_house_id, :storage_id)
+      params.require(:piece).permit(:title, :distribution, :no, :divers, :publishing_house_id, :storage_id, :pdf_file_data => [])
     end
 end

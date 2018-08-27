@@ -108,5 +108,15 @@
 
     </div>
   </div>
+<% end %>
 
+<%= form_for(@piece, url: add_file_piece_path, multipart: true, method: :post) do |form| %>
+  <div class="field">
+    <%= form.label "test" %>
+    <%= form.file_field :pdf_file_data, multiple: true, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Load files", class:"btn btn-primary" %>
+  </div>
 <% end %>

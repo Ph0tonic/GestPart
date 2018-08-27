@@ -35,8 +35,10 @@ ActiveRecord::Schema.define(version: 2018_08_18_082426) do
   create_table "pdf_files", force: :cascade do |t|
     t.string "name"
     t.string "attachement"
+    t.integer "piece_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["piece_id"], name: "index_pdf_files_on_piece_id"
   end
 
   create_table "pdf_voices", force: :cascade do |t|
