@@ -44,4 +44,12 @@ class DropboxPdfUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+  def filename
+    if original_filename
+      # Perform any file name manipulation on initial upload
+    elsif file
+      file.filename
+    end
+  end
 end

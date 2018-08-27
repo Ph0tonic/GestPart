@@ -110,6 +110,13 @@
   </div>
 <% end %>
 
+<% @piece.pdf_files.each do |pdf_file| %>
+  <p>
+    <strong>Comment:</strong>
+    <%= pdf_file.attachement.filename %>
+  </p>
+<% end %>
+
 <%= form_for(@piece, url: add_file_piece_path, multipart: true, method: :post) do |form| %>
   <div class="field">
     <%= form.label "test" %>

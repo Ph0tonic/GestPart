@@ -71,7 +71,7 @@ class PiecesController < ApplicationController
         @piece.pdf_files.create!(:piece_id => @piece.id, :attachement => file)
         #create a document associated with the item that has just been created
     end
-    redirect_to :back
+    redirect_to edit_piece_path(@piece)
   end
 
   # DELETE /pieces/1
