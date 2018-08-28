@@ -10,6 +10,7 @@ class PiecesController < ApplicationController
   # GET /pieces/1
   # GET /pieces/1.json
   def show
+    set_piece()
   end
 
   # GET /pieces/new

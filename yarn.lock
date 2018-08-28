@@ -1626,14 +1626,74 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-datatables.net-bs4@^1.10.16:
+datatables.net-bs4@^1.10.15, datatables.net-bs4@^1.10.16, datatables.net-bs4@^1.10.19:
   version "1.10.19"
   resolved "https://registry.yarnpkg.com/datatables.net-bs4/-/datatables.net-bs4-1.10.19.tgz#0608dff22008cf3c7b8a68b1bc702ed255b404fb"
   dependencies:
     datatables.net "1.10.19"
     jquery ">=1.7"
 
-datatables.net@1.10.19, datatables.net@^1.10.16:
+datatables.net-responsive-bs4@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/datatables.net-responsive-bs4/-/datatables.net-responsive-bs4-2.2.3.tgz#639de17c1d31210ebf2b3c25f1c774c13f729e94"
+  dependencies:
+    datatables.net-bs4 "^1.10.15"
+    datatables.net-responsive "2.2.3"
+    jquery ">=1.7"
+
+datatables.net-responsive@2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/datatables.net-responsive/-/datatables.net-responsive-2.2.3.tgz#50a2b1b4955b16b32f573a3f00f473b0bfbee913"
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-rowreorder-bs4@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/datatables.net-rowreorder-bs4/-/datatables.net-rowreorder-bs4-1.2.5.tgz#bacbdb96bfb122bd5d5bf1beaca3a30f6eb57f20"
+  dependencies:
+    datatables.net-bs4 "^1.10.15"
+    datatables.net-rowreorder "1.2.5"
+    jquery ">=1.7"
+
+datatables.net-rowreorder@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/datatables.net-rowreorder/-/datatables.net-rowreorder-1.2.5.tgz#2582f02fb08b9e11744d6a9dc9cdda9953f6f611"
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-scroller-bs4@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-scroller-bs4/-/datatables.net-scroller-bs4-1.5.1.tgz#453a5868d28bc40beda7fb3a0e25379aabd477c0"
+  dependencies:
+    datatables.net-bs4 "^1.10.15"
+    datatables.net-scroller "1.5.1"
+    jquery ">=1.7"
+
+datatables.net-scroller@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-scroller/-/datatables.net-scroller-1.5.1.tgz#6f993db9e1976b425c6d9dfe05efd4ab39327733"
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-select-bs4@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/datatables.net-select-bs4/-/datatables.net-select-bs4-1.2.7.tgz#5e4ddd8feb412e974b54a15e81b2bb29840ba55b"
+  dependencies:
+    datatables.net-bs4 "^1.10.15"
+    datatables.net-select "1.2.7"
+    jquery ">=1.7"
+
+datatables.net-select@1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.2.7.tgz#7d5badfca49c438f8b51df04483d8d77857e917c"
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net@1.10.19, datatables.net@^1.10.15, datatables.net@^1.10.16:
   version "1.10.19"
   resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.10.19.tgz#97a1ed41c85e62d61040603481b59790a172dd1f"
   dependencies:

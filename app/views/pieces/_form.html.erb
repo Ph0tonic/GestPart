@@ -55,21 +55,6 @@
         </div>
       </div>
       <!-- /.col-md-3 -->
-      <div class="col-lg-3">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="m-0">Featured</h5>
-          </div>
-          <div class="card-body">
-
-            <h6 class="card-title">Special title treatment</h6>
-
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-      </div>
-      <!-- /.col-md-3 -->
     </div>
     <!-- /.col-md-6 -->
     <div class="col-lg-3">
@@ -78,12 +63,17 @@
           <h5 class="m-0">More</h5>
         </div>
         <div class="card-body">
-          <h6 class="card-title">Special title treatment</h6>
+          <h6 class="card-title">Authors</h6>
 
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <a href="#" class="btn btn-primary">Go somewhere</a>
 
-          <h6 class="card-title">Special title treatment</h6>
+          <h6 class="card-title">Arranger</h6>
+
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+
+          <h6 class="card-title">Genre</h6>
 
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <a href="#" class="btn btn-primary">Go somewhere</a>
@@ -110,20 +100,119 @@
   </div>
 <% end %>
 
-<% @piece.pdf_files.each do |pdf_file| %>
-  <p>
-    <strong>Comment:</strong>
-    <%= pdf_file.attachement.filename %>
-  </p>
-<% end %>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card card-primary card-outline">
+      <div class="card-header">
+        <h5 class="card-title">Files</h5>
+      </div>
+      <div class="card-body">
 
-<%= form_for(@piece, url: add_file_piece_path, multipart: true, method: :post) do |form| %>
-  <div class="field">
-    <%= form.label "test" %>
-    <%= form.file_field :pdf_file_data, multiple: true, class: "form-control" %>
+        <div class="row">
+          <div class="col-lg-6">
+            <table class="table table-bordered table-hover" id="table-files">
+              <thead>
+                <tr>
+                  <th>Files</th>
+                  <th class="d-">id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @piece.pdf_files.each do |pdf_file| %>
+                <tr>
+                  <td><%= pdf_file.attachement.filename %></td>
+                  <td class="d-"><%= pdf_file.id %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              Add files
+            </button>
+          </div>
+          <div class="col-lg-6">
+            <table class="table table-bordered table-hover" id="table-voices">
+              <thead>
+                  <tr>
+                    <th>Voice</th>
+                    <th>Start page</th>
+                    <th>Nb page</th>
+                    <th class="d-">id pdf_file</th>
+                    <th class="d-">id pdf_voice</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <% @piece.pdf_files.each do |pdf_file| %>
+                  <% pdf_file.pdf_voices.each do |pdf_voice| %>
+                    <tr>
+                      <td><%= pdf_voice.voice.name %></td>
+                      <td><%= pdf_voice.start_page %></td>
+                      <td><%= pdf_voice.nb_page %></td>
+                      <td class="d-"><%= pdf_file.id %></td>
+                      <td class="d-"><%= pdf_voice.id %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+            <script>
+            $(document).ready( function () {
+              let tablevoices = $('#table-voices').DataTable({
+                columnDefs: [{
+                  "targets": [3,4],
+                  "visible": false
+                }],
+                paging: false,
+                info: false,
+                dom: ""
+              });
+              let tablefiles = $('#table-files').DataTable({
+                select: {
+                  style: 'single'
+                },
+                columnDefs: [{
+                  "targets": [1],
+                  "visible": false
+                }],
+                paging: false,
+                info: false,
+                dom: ""
+              });
+              $('#table-files').on( 'click', 'tbody tr', function () {
+                console.log(tablefiles.row(this).data()[1])
+                tablevoices.column(3).search(tablefiles.row(this).data()[1],true).draw();
+              });
+            });
+            // TODO Select first file when fully loaded
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div class="actions">
-    <%= form.submit "Load files", class:"btn btn-primary" %>
+<!-- Modal load file -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select your files</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= form_for(@piece, url: add_file_piece_path, multipart: true, method: :post) do |form| %>
+        <div class="modal-body">
+          <div class="field">
+            <%= form.file_field :pdf_file_data, multiple: true, class: "form-control-file" %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <%= form.submit "Upload files", class:"btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>
