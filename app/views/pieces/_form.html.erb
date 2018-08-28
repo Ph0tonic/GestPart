@@ -162,9 +162,7 @@
                   "targets": [3,4],
                   "visible": false
                 }],
-                paging: false,
-                info: false,
-                dom: ""
+                dom: "rt"
               });
               let tablefiles = $('#table-files').DataTable({
                 select: {
@@ -174,16 +172,13 @@
                   "targets": [1],
                   "visible": false
                 }],
-                paging: false,
-                info: false,
-                dom: ""
+                dom: "rt"
               });
-              $('#table-files').on( 'click', 'tbody tr', function () {
-                console.log(tablefiles.row(this).data()[1])
-                tablevoices.column(3).search(tablefiles.row(this).data()[1],true).draw();
+              tablefiles.on('select', function(e, dt, type, indexes){
+                tablevoices.column(3).search(tablefiles.row(indexes).data()[1],true).draw();
               });
+              tablefiles.row(0).select();
             });
-            // TODO Select first file when fully loaded
             </script>
           </div>
         </div>
