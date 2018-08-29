@@ -14,7 +14,7 @@
   <tbody>
     <% @pdf_files.each do |pdf_file| %>
       <tr>
-        <td><%= pdf_file.name %></td>
+        <td><%= pdf_file.filename %></td>
         <td><%= link_to "Download pdf", pdf_file.attachement_url %></td>
         <td><%= link_to 'Show', pdf_file %></td>
         <td><%= link_to 'Edit', edit_pdf_file_path(pdf_file) %></td>
