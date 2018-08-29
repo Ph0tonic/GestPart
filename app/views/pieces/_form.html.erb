@@ -64,19 +64,19 @@
         </div>
         <div class="card-body">
           <h6 class="card-title">Authors</h6>
-
+          <!-- TODO Add authors -->
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <a href="#" class="btn btn-primary">Add</a>
 
           <h6 class="card-title">Arranger</h6>
-
+          <!-- TODO Add Arrangers -->
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <a href="#" class="btn btn-primary">Add</a>
 
           <h6 class="card-title">Genre</h6>
-
+          <!-- TODO Add Genre -->
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <a href="#" class="btn btn-primary">Add</a>
         </div>
       </div>
     </div>
@@ -84,11 +84,11 @@
   </div>
   <!-- /.row -->
 
-  <div class="field">
+  <!-- <div class="field">
     <%= form.label :storage_id %>
     <%= form.number_field :storage_id %>
-  </div>
-  <p>
+  </div> -->
+  <!-- <p>
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
       More details
     </a>
@@ -97,7 +97,7 @@
     <div class="card card-body">
 
     </div>
-  </div>
+  </div> -->
 <% end %>
 
 <div class="row">
@@ -120,7 +120,7 @@
               <tbody>
                 <% @piece.pdf_files.each do |pdf_file| %>
                 <tr>
-                  <td><%= pdf_file.attachement.filename %></td>
+                  <td><%= pdf_file.filename %></td>
                   <td class="d-"><%= pdf_file.id %></td>
                 </tr>
                 <% end %>
@@ -207,6 +207,12 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
           <%= form.submit "Upload files", class:"btn btn-primary" %>
         </div>
+      <% end %>
+
+
+      <%= form_for(@piece, url: add_file_piece_path, multipart: true, method: :post) do |form| %>
+        <%= form.label "test" %>
+        <%= form.file_field :pdf_file_data, multiple: true, class: "form-control" %>
       <% end %>
     </div>
   </div>

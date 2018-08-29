@@ -8,7 +8,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-#
+
 # PublishingHouse.create(name: 'Difem')
 # PublishingHouse.create(name: 'Obrasso')
 # PublishingHouse.create(name: 'Marc Reift')
@@ -125,5 +125,5 @@
 #   Voice.create( name: name, number: number, key: key, order: order)
 # end
 
-PdfVoice.create(pdf_file_id: 4, voice_id: 1, start_page: 0, nb_page: 2)
-PdfVoice.create(pdf_file_id: 6, voice_id: 40, start_page: 2, nb_page: 2)
+# PdfVoice.create(pdf_file_id: 4, voice_id: 1, start_page: 0, nb_page: 2)
+# PdfVoice.create(pdf_file_id: 6, voice_id: 40, start_page: 2, nb_page: 2)
