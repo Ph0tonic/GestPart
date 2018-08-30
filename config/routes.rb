@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :pieces do
     member do
       post 'add_file'
+      post 'config_file'
     end
   end
   resources :kinds

@@ -84,6 +84,7 @@
   </div>
   <!-- /.row -->
 
+  <!-- TODO Storage-->
   <!-- <div class="field">
     <%= form.label :storage_id %>
     <%= form.number_field :storage_id %>
@@ -109,7 +110,10 @@
       <div class="card-body">
 
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileModal">
+              <i class="fas fa-plus"></i> Add files
+            </button>
             <table class="table table-bordered table-hover" id="table-files">
               <thead>
                 <tr>
@@ -126,60 +130,47 @@
                 <% end %>
               </tbody>
             </table>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-              Add files
-            </button>
           </div>
-          <div class="col-lg-6">
+          <div class="col-lg-9">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#voiceModal">
+              <i class="fas fa-plus"></i> Add Voices
+            </button>
             <table class="table table-bordered table-hover" id="table-voices">
               <thead>
                   <tr>
+                    <th>Order</th>
                     <th>Voice</th>
+                    <th>Number</th>
+                    <th>Key</th>
                     <th>Start page</th>
                     <th>Nb page</th>
                     <th class="d-">id pdf_file</th>
+                    <th class="d-">id voice</th>
                     <th class="d-">id pdf_voice</th>
                   </tr>
               </thead>
               <tbody>
                 <% @piece.pdf_files.each do |pdf_file| %>
-                  <% pdf_file.pdf_voices.each do |pdf_voice| %>
+                  <% count=0 %>
+                  <% pdf_file.pdf_voices.order(start_page: :asc).each do |pdf_voice| %>
                     <tr>
+                      <td><%= count+=1 %></td>
                       <td><%= pdf_voice.voice.name %></td>
+                      <th><%= pdf_voice.voice.number %></th>
+                      <th><%= pdf_voice.voice.key %></th>
                       <td><%= pdf_voice.start_page %></td>
                       <td><%= pdf_voice.nb_page %></td>
                       <td class="d-"><%= pdf_file.id %></td>
+                      <td class="d-"><%= pdf_voice.voice_id %></td>
                       <td class="d-"><%= pdf_voice.id %></td>
                     </tr>
                   <% end %>
                 <% end %>
               </tbody>
             </table>
-            <script>
-            $(document).ready( function () {
-              let tablevoices = $('#table-voices').DataTable({
-                columnDefs: [{
-                  "targets": [3,4],
-                  "visible": false
-                }],
-                dom: "rt"
-              });
-              let tablefiles = $('#table-files').DataTable({
-                select: {
-                  style: 'single'
-                },
-                columnDefs: [{
-                  "targets": [1],
-                  "visible": false
-                }],
-                dom: "rt"
-              });
-              tablefiles.on('select', function(e, dt, type, indexes){
-                tablevoices.column(3).search(tablefiles.row(indexes).data()[1],true).draw();
-              });
-              tablefiles.row(0).select();
-            });
-            </script>
+            <button id="save-pdfvoice" type="button" class="btn btn-primary">
+              Save
+            </button>
           </div>
         </div>
       </div>
@@ -188,7 +179,7 @@
 </div>
 
 <!-- Modal load file -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -208,12 +199,181 @@
           <%= form.submit "Upload files", class:"btn btn-primary" %>
         </div>
       <% end %>
-
-
-      <%= form_for(@piece, url: add_file_piece_path, multipart: true, method: :post) do |form| %>
-        <%= form.label "test" %>
-        <%= form.file_field :pdf_file_data, multiple: true, class: "form-control" %>
-      <% end %>
     </div>
   </div>
 </div>
+
+
+<!-- Modal load file -->
+<div class="modal fade" id="voiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add voices</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-option form-inline">
+          <label for="nbpage">Nb of page per voice</label>
+          <input id="nbpage" type="number" min="1" value="1" class="form-control">
+        </diV>
+        <hr>
+        <table id="addVoiceTable" class="table" style="width:100%">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Voice</th>
+              <th>Number</th>
+              <th>Key</th>
+              <th>order</th>
+              <th>id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% Voice.all.each do |voice| %>
+              <tr>
+                <td></td>
+                <td><%= voice.name %></td>
+                <td><%= voice.number %></td>
+                <td><%= voice.key %></td>
+                <td><%= voice.order %></td>
+                <td><%= voice.id %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button id="add-voices" type="button" class="btn btn-primary" data-dismiss="modal">Add voices</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var idPdfFile = null;
+$(document).ready( function () {
+  let tablevoices = $('#table-voices').DataTable({
+    dom: "rt",
+    columnDefs: [
+      {
+        targets: [4,6,7,8],
+        visible: false
+      },
+      {
+        orderable: false,
+        targets: [2,3,4,5,6,7,8]
+      }
+    ],
+    rowReorder: true,
+    select: true
+  });
+
+  let tablefiles = $('#table-files').DataTable({
+    select: {
+      style: 'single'
+    },
+    columnDefs: [{
+      "targets": [1],
+      "visible": false
+    }],
+    dom: "rt",
+    "ordering": false
+  });
+
+  tablefiles.on('select', function(e, dt, type, indexes){
+    idPdfFile = tablefiles.row(indexes).data()[1];
+    tablevoices.column(6).search(tablefiles.row(indexes).data()[1],true).draw();
+  });
+
+  if(tablefiles.rows().count()>0){
+    tablefiles.row(0).select();
+    idPdfFile = tablefiles.row(0).data()[1];
+  }
+
+  let tableAddVoices = $('#addVoiceTable').DataTable( {
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: 0
+    },{
+      targets: [4,5],
+      visible: false
+    },{
+      targets: [1,2,3],
+      orderable: false
+    }],
+    select: {
+      style:    'os',
+      selector: 'td:first-child'
+    },
+    order: [[ 4, 'asc' ]],
+    dom: "Blfrtip"
+  });
+
+  $('#add-voices').on('click',function(){
+    let data = tableAddVoices.rows({selected:  true}).data();
+    console.log(tableAddVoices.rows({selected:  true}).data())
+    for (var i=0; i < data.length ;i++){
+       tablevoices.row.add([
+         tablevoices.rows().count()+1,
+         data[i][1],
+         data[i][2],
+         data[i][3],
+         0, // Start page will be calculated when saving
+         $('#nbpage').val(), // Nb page
+         idPdfFile,
+         data[i][5],
+         0
+       ]).draw();
+    }
+  });
+  $('#save-pdfvoice').on('click',function(){
+    //Update PageStart for reccords
+    let m = new Map();
+
+    data = tablevoices.rows({order:'applied'}).data().toArray();
+    for (let i=0;i<data.length;i++){
+      if(!(data[i][6] in m)){
+        console.log(data[i][6] +" key  ")
+        m[data[i][6]] = 1
+      }
+      console.log(m[data[i][6]] +" value applied")
+      data[i][4] = m[data[i][6]]
+      m[data[i][6]] = parseInt(data[i][5]) + parseInt(m[data[i][6]])
+
+      data[i][8] = parseInt(data[i][8])
+    }
+
+    console.log(data);
+
+    // logger.warn pdf_voice[0]  # Order
+    // logger.warn pdf_voice[1]  # Voice
+    // logger.warn pdf_voice[2]  # Number
+    // logger.warn pdf_voice[3]  # Key
+    // logger.warn pdf_voice[4]  # Start page
+    // logger.warn pdf_voice[5]  # Nb page
+    // logger.warn pdf_voice[6]  # id pdf_file
+    // logger.warn pdf_voice[7]  # id voice
+    // logger.warn pdf_voice[8]  # id pdf_voice
+
+    Rails.ajax({
+      type: "POST",
+      url: "/pieces/<%= @piece.id %>/config_file",
+      data: "piece[voices]="+JSON.stringify(data),
+      success: function(repsonse){
+        // TODO Manage update
+        console.log(JSON.stringify(data));
+        alert('successfully');
+      },
+      error: function(repsonse){
+        // TODO Error
+       alert('error ajax');
+      }
+    })
+  });
+});
+</script>

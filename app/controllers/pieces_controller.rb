@@ -27,22 +27,10 @@ class PiecesController < ApplicationController
   def create
     @piece = Piece.new(piece_params)
 
-    # if @piece.save
-    #    #iterate through each of the files
-    #    params[:piece][:pdf_file_data].each do |file|
-    #        @piece.pdf_files.create!(:attachement => file)
-    #        #create a document associated with the item that has just been created
-    #    end
-    #    render :show, status: :created, location: @piece
-    #  else
-    #    render json: @piece.errors, status: :unprocessable_entity
-    #  end
-
     respond_to do |format|
       if @piece.save
         format.html { redirect_to edit_piece_path(@piece), notice: 'Piece was successfully created.' }
-        # format.html { redirect_to @piece, notice: 'Piece was successfully created.' }
-        # format.json { render :show, status: :created, location: @piece }
+        format.json { render :show, status: :created, location: @piece }
       else
         format.html { render :new }
         format.json { render json: @piece.errors, status: :unprocessable_entity }
@@ -67,12 +55,47 @@ class PiecesController < ApplicationController
   def add_file
     set_piece()
 
-    logger.warn "It works!"
     params[:piece][:pdf_file_data].each do |file|
         @piece.pdf_files.create!(:piece_id => @piece.id, :attachement => file)
         #create a document associated with the item that has just been created
     end
     redirect_to edit_piece_path(@piece)
+  end
+
+  def config_file
+    set_piece()
+
+    logger.warn "Ready to manage JSON data"
+    logger.warn params[:piece]
+
+    logger.warn params[:piece][:voices]
+    final_data = JSON.parse(params[:piece][:voices])
+    logger.warn final_data
+
+    final_data.each do |pdf_voice|
+      if pdf_voice[8] > 0
+        # PdfVoice existante
+        logger.warn "Searching existing pdf_voice !!!"
+        pdfVoice = PdfVoice.find(pdf_voice[8])
+        pdfVoice.start_page = pdf_voice[4]
+        pdfVoice.nb_page = pdf_voice[5]
+        pdfVoice.save()
+      else
+        # PdfVoice new
+        PdfVoice.create(pdf_file_id: pdf_voice[6], voice_id: pdf_voice[7], start_page: pdf_voice[4], nb_page: pdf_voice[5])
+      end
+
+      logger.warn pdf_voice[0]  # Order
+      logger.warn pdf_voice[1]  # Voice
+      logger.warn pdf_voice[2]  # Number
+      logger.warn pdf_voice[3]  # Key
+      logger.warn pdf_voice[4]  # Start page
+      logger.warn pdf_voice[5]  # Nb page
+      logger.warn pdf_voice[6]  # id pdf_file
+      logger.warn pdf_voice[7]  # id voice
+      logger.warn pdf_voice[8]  # id pdf_voice
+
+    end
   end
 
   # DELETE /pieces/1
@@ -93,6 +116,6 @@ class PiecesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def piece_params
-      params.require(:piece).permit(:title, :distribution, :no, :divers, :publishing_house_id, :storage_id, :pdf_file_data => [])
+      params.require(:piece).permit(:title, :distribution, :no, :divers, :publishing_house_id, :voices, :storage_id, :pdf_file_data => [])
     end
 end
