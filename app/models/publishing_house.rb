@@ -1,5 +1,5 @@
 class PublishingHouse < ApplicationRecord
-  has_many :piece
+  has_many :pieces
   validates :name, presence: true,
                     length: { minimum: 1 }
 end

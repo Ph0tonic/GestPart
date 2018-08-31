@@ -54,6 +54,9 @@
                 </div>
               </div>
             </div>
+            <div class="card-footer">
+              <%= link_to 'Edit', edit_piece_path(@piece), class: "btn btn-warning" %>
+            </div>
           </div>
 
           <div class="field">
@@ -64,6 +67,40 @@
       </div>
       <!-- /.row -->
     <% end %>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h5 class="card-title">Scans</h5>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-hover" id="table-files">
+              <thead>
+                <tr>
+                  <th>Files</th>
+                  <th>Actions</th>
+                  <th class="d-none">id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%
+                result = ActiveRecord::Base.connection.exec_query("SELECT pdf_voices.id as 'pdf_voice_id', pdf_voices.*, voices.* FROM voices, pdf_voices, pdf_files WHERE pdf_voices.voice_id = voices.id AND pdf_voices.pdf_file_id = pdf_files.id AND pdf_files.piece_id = "+@piece.id.to_s+" ORDER BY 'orderby' ASC")
+                result.each do |row|
+                %>
+                <tr>
+                  <td><%= row['name'] %></td>
+                  <td>
+                    <a href="/pdf_voices/<%= row['pdf_voice_id'] %>/download">Download</a>
+                  <td class="d-"><%= row['pdf_voice_id'] %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->

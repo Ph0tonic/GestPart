@@ -4,7 +4,7 @@ class CreateVoices < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :number
       t.string :key
-      t.integer :order
+      t.integer :orderby
 
       t.timestamps
     end

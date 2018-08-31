@@ -124,7 +124,7 @@
               <tbody>
                 <% @piece.pdf_files.each do |pdf_file| %>
                 <tr>
-                  <td><%= pdf_file.filename %></td>
+                  <td><%= pdf_file.attachement.filename %></td>
                   <td class="d-"><%= pdf_file.id %></td>
                 </tr>
                 <% end %>
@@ -232,13 +232,13 @@
             </tr>
           </thead>
           <tbody>
-            <% Voice.all.each do |voice| %>
+            <% Voice.order(orderby: :asc).each do |voice| %>
               <tr>
                 <td></td>
                 <td><%= voice.name %></td>
                 <td><%= voice.number %></td>
                 <td><%= voice.key %></td>
-                <td><%= voice.order %></td>
+                <td><%= voice.orderby %></td>
                 <td><%= voice.id %></td>
               </tr>
             <% end %>

@@ -102,7 +102,7 @@ ActiveRecord::Schema.define(version: 2018_08_18_082426) do
     t.string "name"
     t.integer "number"
     t.string "key"
-    t.integer "order"
+    t.integer "orderby"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

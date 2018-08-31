@@ -75,7 +75,6 @@ class PiecesController < ApplicationController
     final_data.each do |pdf_voice|
       if pdf_voice[8] > 0
         # PdfVoice existante
-        logger.warn "Searching existing pdf_voice !!!"
         pdfVoice = PdfVoice.find(pdf_voice[8])
         pdfVoice.start_page = pdf_voice[4]
         pdfVoice.nb_page = pdf_voice[5]
@@ -84,16 +83,6 @@ class PiecesController < ApplicationController
         # PdfVoice new
         PdfVoice.create(pdf_file_id: pdf_voice[6], voice_id: pdf_voice[7], start_page: pdf_voice[4], nb_page: pdf_voice[5])
       end
-
-      logger.warn pdf_voice[0]  # Order
-      logger.warn pdf_voice[1]  # Voice
-      logger.warn pdf_voice[2]  # Number
-      logger.warn pdf_voice[3]  # Key
-      logger.warn pdf_voice[4]  # Start page
-      logger.warn pdf_voice[5]  # Nb page
-      logger.warn pdf_voice[6]  # id pdf_file
-      logger.warn pdf_voice[7]  # id voice
-      logger.warn pdf_voice[8]  # id pdf_voice
 
     end
   end

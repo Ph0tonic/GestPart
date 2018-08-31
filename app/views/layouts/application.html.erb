@@ -173,13 +173,6 @@
               <p>Pieces of music</p>
             <% end %>
           </li>
-          <li class="nav-item">
-            <%= link_to(storages_path, class: 'nav-link' ) do %>
-              <i class="nav-icon fas fa-archive"></i>
-              <p>Storage</p>
-            <% end %>
-          </li>
-
 
           <li class="nav-item">
             <%= link_to(publishing_houses_path, class: 'nav-link' ) do %>
@@ -187,10 +180,23 @@
               <p>Publishing House</p>
             <% end %>
           </li>
+
+          <li class="nav-item">
+            <%= link_to(storages_path, class: 'nav-link' ) do %>
+              <i class="nav-icon fas fa-archive"></i>
+              <p>Storage</p>
+            <% end %>
+          </li>
           <li class="nav-item">
             <%= link_to(storage_types_path, class: 'nav-link' ) do %>
-              <i class="fas fa-music nav-icon"></i>
+              <i class="fas fa-boxes nav-icon"></i>
               <p>Storage type</p>
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to(voices_path, class: 'nav-link' ) do %>
+              <i class="fas fa-drum nav-icon"></i>
+              <p>Voices</p>
             <% end %>
           </li>
 
