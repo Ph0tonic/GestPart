@@ -1,24 +1,61 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @storage.name %>
-</p>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark"><%= @storage.name %></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><%= link_to 'Storages', storages_path %></li>
+          <li class="breadcrumb-item active">Show</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
-<p>
-  <strong>Memo:</strong>
-  <%= @storage.memo %>
-</p>
-
-<p>
-  <strong>Type:</strong>
-  <%= @storage.type %>
-</p>
-
-<p>
-  <strong>Parent:</strong>
-  <%= @storage.parent %>
-</p>
-
-<%= link_to 'Edit', edit_storage_path(@storage) %> |
-<%= link_to 'Back', storages_path %>
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <%= form_with(model: @storage, local: true) do |form| %>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card card-primary card-outline">
+            <div class="card-header">
+              <h5 class="card-title">Informations</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <%= form.label :name %>
+                <%= form.text_field :name, :class => "form-control", :disabled => true  %>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <%= form.label :memo %>
+                  <%= form.text_field :memo, :class => "form-control", :disabled => true  %>
+                </div>
+                <div class="col-lg-6 form-group">
+                  <%= form.label :storage_type_id %>
+                  <%= collection_select(:storage, :storage_type_id, StorageType.all, :id, :name, {include_blank: true}, {:class => "form-control", :disabled => true}) %>
+                </div>
+                <div class="d-none">
+                  <%= form.label :parent_id %>
+                  <%= form.number_field :parent_id, :class => "form-control", :disabled => true  %>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <%= link_to 'Edit', edit_storage_path(@storage), class: "btn btn-warning" %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+    <% end %>
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->

@@ -1,6 +1,6 @@
 class Storage < ApplicationRecord
-  belongs_to :type
-  validates :type, presence: true
-  belongs_to :storage
+  belongs_to :storage_type
+  validates :storage_type, presence: true
+  belongs_to :storage, optional: true
   has_many :storages
 end
