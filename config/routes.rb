@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       post 'config_file'
     end
   end
-  resources :kinds
+  resources :genres
   resources :compositors
   resources :publishing_houses
   resources :voices

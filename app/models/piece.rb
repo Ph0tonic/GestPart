@@ -1,7 +1,7 @@
 class Piece < ApplicationRecord
   belongs_to :publishing_house, optional: true
   belongs_to :storage, optional: true
-  has_and_belongs_to_many :kind
+  has_and_belongs_to_many :genre
   has_many :pdf_files
   has_many :pdf_voices, through: :pdf_files
   attr_accessor :pdf_file_data

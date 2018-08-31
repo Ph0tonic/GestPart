@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2018_08_18_082426) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "kinds", force: :cascade do |t|
+  create_table "genres", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -65,11 +65,11 @@ ActiveRecord::Schema.define(version: 2018_08_18_082426) do
     t.index ["storage_id"], name: "index_pieces_on_storage_id"
   end
 
-  create_table "pieces_kinds", id: false, force: :cascade do |t|
+  create_table "pieces_genres", id: false, force: :cascade do |t|
     t.integer "piece_id"
-    t.integer "kind_id"
-    t.index ["kind_id"], name: "index_pieces_kinds_on_kind_id"
-    t.index ["piece_id"], name: "index_pieces_kinds_on_piece_id"
+    t.integer "genre_id"
+    t.index ["genre_id"], name: "index_pieces_genres_on_genre_id"
+    t.index ["piece_id"], name: "index_pieces_genres_on_piece_id"
   end
 
   create_table "publishing_houses", force: :cascade do |t|

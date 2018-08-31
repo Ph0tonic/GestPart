@@ -1,10 +1,10 @@
-<%= form_with(model: kind, local: true) do |form| %>
-  <% if kind.errors.any? %>
+<%= form_with(model: genre, local: true) do |form| %>
+  <% if genre.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(kind.errors.count, "error") %> prohibited this kind from being saved:</h2>
+      <h2><%= pluralize(genre.errors.count, "error") %> prohibited this genre from being saved:</h2>
 
       <ul>
-      <% kind.errors.full_messages.each do |message| %>
+      <% genre.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>

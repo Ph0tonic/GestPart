@@ -125,5 +125,10 @@ voice_list.each do |name, number, key, orderby|
   Voice.create( name: name, number: number, key: key, orderby: orderby)
 end
 
+StorageType.create(name: 'Boîte', description: 'Boîte de stockage d\'archives', icon: 'fas fa-archive')
+StorageType.create(name: 'Armoire', description: 'Armoire métalique anti-feu', icon: 'fas fa-th-large')
+
+Storage.create(name: 'Boîte n°1', memo: '', storage_type_id: 1)
+
 # PdfVoice.create(pdf_file_id: 4, voice_id: 1, start_page: 0, nb_page: 2)
 # PdfVoice.create(pdf_file_id: 6, voice_id: 40, start_page: 2, nb_page: 2)

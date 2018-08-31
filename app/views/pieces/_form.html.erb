@@ -87,7 +87,7 @@
           var databasics = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: "/kinds.json"
+            remote: "/genres.json"
           });
 
           // initialize the bloodhound suggestion engine
@@ -95,7 +95,7 @@
 
           $('#datatest').tagsinput({
             typeaheadjs: {
-              name: 'kinds',
+              name: 'genres',
               displayKey: 'name',
               source: databasics.ttAdapter()
             }
