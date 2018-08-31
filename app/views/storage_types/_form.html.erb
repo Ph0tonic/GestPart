@@ -21,19 +21,19 @@
           <h5 class="card-title">Informations</h5>
         </div>
         <div class="card-body">
-          <div class="form-group">
-            <%= form.label :name %>
-            <%= form.text_field :name, :class => "form-control" %>
-          </div>
           <div class="row">
+            <div class="col-lg-6">
+              <%= form.label :name %>
+              <%= form.text_field :name, :class => "form-control" %>
+            </div>
             <div class="col-lg-6">
               <%= form.label :icon %>
               <%= form.text_field :icon, :class => "form-control" %>
             </div>
-            <div class="d-none">
-              <%= form.label :description %>
-              <%= form.text_field :description, :class => "form-control" %>
-            </div>
+          </div>
+          <div class="form-group">
+            <%= form.label :description %>
+            <%= form.text_area :description, :class => "form-control" %>
           </div>
           <div class="row justify-content-end">
             <div class="col-auto">
@@ -47,24 +47,4 @@
   </div>
   <!-- /.row -->
 
-<% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :icon %>
-    <%= form.text_field :icon %>
-  </div>
-
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
 <% end %>

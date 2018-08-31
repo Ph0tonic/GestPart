@@ -1,140 +1,99 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Storage Types</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Icon</th>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @storage_types.each do |storage_type| %>
-      <tr>
-        <td><%= storage_type.name %></td>
-        <td><%= storage_type.icon %></td>
-        <td><%= storage_type.description %></td>
-        <td><%= link_to 'Show', storage_type %></td>
-        <td><%= link_to 'Edit', edit_storage_type_path(storage_type) %></td>
-        <td><%= link_to 'Destroy', storage_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Storage Type', new_storage_type_path %>
-
-
-
-<input type="text" id="typeahead" value="">
-
-<div class="form-control tags" id="tags">
-  <input type="text" class="labelinput">
-  <input type="hidden" value="value 1,value 2,value 3" name="result">
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Storage types</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item active">Storage types</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
 
-
-<script>
-$(function(){
-
-  var numbers = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('num'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    local: [
-      { num: 'one' },
-      { num: 'two' },
-      { num: 'three' },
-      { num: 'four' },
-      { num: 'five' },
-      { num: 'six' },
-      { num: 'seven' },
-      { num: 'eight' },
-      { num: 'nine' },
-      { num: 'ten' }
-    ]
-  });
-
-  // initialize the bloodhound suggestion engine
-  numbers.initialize();
-
-  // instantiate the typeahead UI
-  $('#typeahead').typeahead(null, {
-    displayKey: 'num',
-    source: numbers.ttAdapter()
-  });
-
-
-  $('#tags').tagsinput({
-	  labelClass:"badge badge-success",
-    typeahead: {
-      source: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
-    },
-    freeInput: true
-	});
-
-  //itemAddedOnInit 	During initialization, pre-defined tags being added will cause this event to be triggered. Example:
-  $('#tags').on('itemAddedOnInit', function(event) {
-    // event.item: contains the item
-  });
-
-  //beforeItemAdd 	Triggered just before an item gets added. Example:
-  $('#tags').on('beforeItemAdd', function(event) {
-    // event.item: contains the item
-    // event.cancel: set to true to prevent the item getting added
-  });
-
-  //itemAdded 	Triggered just after an item got added. Example:
-  $('#tags').on('itemAdded', function(event) {
-    // event.item: contains the item
-  });
-
-  //beforeItemRemove 	Triggered just before an item gets removed. Example:
-  $('#tags').on('beforeItemRemove', function(event) {
-    // event.item: contains the item
-    // event.cancel: set to true to prevent the item getting removed
-  });
-
-  //itemRemoved 	Triggered just after an item got removed. Example:
-  $('#tags').on('itemRemoved', function(event) {
-    // event.item: contains the item
-  });
-});
-</script>
-
-<input type="text" id="datatest" data-role="tagsinput" />
-<script>
-
-var databasics = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('num'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  local: [
-    { num: 'one' },
-    { num: 'two' },
-    { num: 'three' },
-    { num: 'four' },
-    { num: 'five' },
-    { num: 'six' },
-    { num: 'seven' },
-    { num: 'eight' },
-    { num: 'nine' },
-    { num: 'ten' }
-  ]
-});
-
-// initialize the bloodhound suggestion engine
-databasics.initialize();
-
-$('#datatest').tagsinput({
-  typeaheadjs: {
-    name: 'citynames',
-    displayKey: 'num',
-    source: databasics.ttAdapter()
-  }
-});
-</script>
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="card-title">Storage types</h3>
+              </div>
+              <div class="col-sm-6">
+                <%= link_to(new_storage_type_path, class: "btn btn-success float-right") do %>
+                  <i class="fas fa-plus-circle"></i> <span>Add New Storage type</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="storage-types-table" class="table table-bordered table-striped dt-responsive nowrap dataTable" role="grid" aria-describedby="pieces-info" style="width:100%">
+              <thead>
+                <tr role="row">
+                  <th class="sorting" tabindex="0" aria-controls="storage-types-table" rowspan="1" colspan="1" aria-label="storage">Name</th>
+                  <th class="sorting" tabindex="0" aria-controls="storage-types-table" rowspan="1" colspan="1" aria-label="memo">Icon</th>
+                  <th class="sorting" tabindex="0" aria-controls="storage-types-table" rowspan="1" colspan="1" aria-label="type">Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @storage_types.each do |storage_type| %>
+                <tr role="row" class="odd">
+                  <td class="sorting_1"><%= storage_type.name %></td>
+                  <td><%= storage_type.icon %></td>
+                  <td><%= storage_type.description %></td>
+                  <td>
+                    <ul class="list-inline">
+                      <li class="list-inline-item">
+                        <%= link_to(storage_type) do %>
+                          <i class="far fa-eye"></i>
+                        <% end %>
+                      </li>
+                      <li class="list-inline-item">
+                        <%= link_to(edit_storage_type_path(storage_type)) do %>
+                          <i class="fas fa-pencil-alt text-warning"></i>
+                        <% end %>
+                      </li>
+                      <li class="list-inline-item">
+                        <%= link_to(storage_type, method: :delete, data: { confirm: 'Are you sure?' }) do %>
+                          <i class="fas fa-trash text-danger"></i>
+                        <% end %>
+                      </li>
+                    </ul>
+                  </td>
+                </tr>
+                <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th class="sorting" tabindex="0" aria-controls="storage-types-table" rowspan="1" colspan="1" aria-label="storage">Name</th>
+                  <th class="sorting" tabindex="0" aria-controls="storage-types-table" rowspan="1" colspan="1" aria-label="memo">Icon</th>
+                  <th class="sorting" tabindex="0" aria-controls="storage-types-table" rowspan="1" colspan="1" aria-label="type">Description</th>
+                  <th>Actions</th>
+                </tr>
+              </tfoot>
+            </table>
+            <script>
+            $(document).ready( function () {
+              $('#storage-types-table').DataTable({
+                "order": [[ 0, "asc" ]]
+                ]});
+            });
+            </script>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->

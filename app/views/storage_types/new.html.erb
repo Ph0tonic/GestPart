@@ -1,5 +1,25 @@
-<h1>New Storage Type</h1>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">New Storage type</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><%= link_to 'Storage types', storage_types_path %></li>
+          <li class="breadcrumb-item active">New Storage type</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
-<%= render 'form', storage_type: @storage_type %>
-
-<%= link_to 'Back', storage_types_path %>
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <%= render 'form', storage_type: @storage_type %>
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
