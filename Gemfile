@@ -75,3 +75,6 @@ gem 'carrierwave-dropbox'
 
 # Pdf management
 gem 'combine_pdf'
+
+# TypeHead
+gem 'twitter-typeahead-rails'

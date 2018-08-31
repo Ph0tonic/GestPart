@@ -15,8 +15,11 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "./typeaheadjs.scss";
+@import "./tagsinput";
 
 @import "admin-lte/dist/css/adminlte.min";
+
 
 .navbar-global {
   background-color: indigo;

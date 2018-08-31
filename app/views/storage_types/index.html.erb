@@ -29,3 +29,112 @@
 <br>
 
 <%= link_to 'New Storage Type', new_storage_type_path %>
+
+
+
+<input type="text" id="typeahead" value="">
+
+<div class="form-control tags" id="tags">
+  <input type="text" class="labelinput">
+  <input type="hidden" value="value 1,value 2,value 3" name="result">
+</div>
+
+
+<script>
+$(function(){
+
+  var numbers = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('num'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: [
+      { num: 'one' },
+      { num: 'two' },
+      { num: 'three' },
+      { num: 'four' },
+      { num: 'five' },
+      { num: 'six' },
+      { num: 'seven' },
+      { num: 'eight' },
+      { num: 'nine' },
+      { num: 'ten' }
+    ]
+  });
+
+  // initialize the bloodhound suggestion engine
+  numbers.initialize();
+
+  // instantiate the typeahead UI
+  $('#typeahead').typeahead(null, {
+    displayKey: 'num',
+    source: numbers.ttAdapter()
+  });
+
+
+  $('#tags').tagsinput({
+	  labelClass:"badge badge-success",
+    typeahead: {
+      source: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
+    },
+    freeInput: true
+	});
+
+  //itemAddedOnInit 	During initialization, pre-defined tags being added will cause this event to be triggered. Example:
+  $('#tags').on('itemAddedOnInit', function(event) {
+    // event.item: contains the item
+  });
+
+  //beforeItemAdd 	Triggered just before an item gets added. Example:
+  $('#tags').on('beforeItemAdd', function(event) {
+    // event.item: contains the item
+    // event.cancel: set to true to prevent the item getting added
+  });
+
+  //itemAdded 	Triggered just after an item got added. Example:
+  $('#tags').on('itemAdded', function(event) {
+    // event.item: contains the item
+  });
+
+  //beforeItemRemove 	Triggered just before an item gets removed. Example:
+  $('#tags').on('beforeItemRemove', function(event) {
+    // event.item: contains the item
+    // event.cancel: set to true to prevent the item getting removed
+  });
+
+  //itemRemoved 	Triggered just after an item got removed. Example:
+  $('#tags').on('itemRemoved', function(event) {
+    // event.item: contains the item
+  });
+});
+</script>
+
+<input type="text" id="datatest" data-role="tagsinput" />
+<script>
+
+var databasics = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('num'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  local: [
+    { num: 'one' },
+    { num: 'two' },
+    { num: 'three' },
+    { num: 'four' },
+    { num: 'five' },
+    { num: 'six' },
+    { num: 'seven' },
+    { num: 'eight' },
+    { num: 'nine' },
+    { num: 'ten' }
+  ]
+});
+
+// initialize the bloodhound suggestion engine
+databasics.initialize();
+
+$('#datatest').tagsinput({
+  typeaheadjs: {
+    name: 'citynames',
+    displayKey: 'num',
+    source: databasics.ttAdapter()
+  }
+});
+</script>

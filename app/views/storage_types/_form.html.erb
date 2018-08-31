@@ -1,15 +1,53 @@
 <%= form_with(model: storage_type, local: true) do |form| %>
   <% if storage_type.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(storage_type.errors.count, "error") %> prohibited this storage_type from being saved:</h2>
-
-      <ul>
-      <% storage_type.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="callout callout-danger">
+          <h5><i class="fas fa-exclamation-circle"></i> <h2><%= pluralize(storage_type.errors.count, "error") %> prohibited this storage type from being saved:</h2></h5>
+          <ul>
+          <% storage_type.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   <% end %>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="card-title">Informations</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <%= form.label :name %>
+            <%= form.text_field :name, :class => "form-control" %>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <%= form.label :icon %>
+              <%= form.text_field :icon, :class => "form-control" %>
+            </div>
+            <div class="d-none">
+              <%= form.label :description %>
+              <%= form.text_field :description, :class => "form-control" %>
+            </div>
+          </div>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <%= form.submit 'Save', :class => 'mt-2 btn btn-primary' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-12 -->
+  </div>
+  <!-- /.row -->
+
+<% end %>
 
   <div class="field">
     <%= form.label :name %>
