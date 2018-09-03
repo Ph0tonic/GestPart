@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_18_082426) do
+ActiveRecord::Schema.define(version: 2018_09_03_091519) do
+
+  create_table "compositions", force: :cascade do |t|
+    t.integer "piece_id"
+    t.integer "compositor_id"
+    t.boolean "author"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["compositor_id"], name: "index_compositions_on_compositor_id"
+    t.index ["piece_id"], name: "index_compositions_on_piece_id"
+  end
 
   create_table "compositors", force: :cascade do |t|
     t.string "name"
@@ -22,6 +32,13 @@ ActiveRecord::Schema.define(version: 2018_08_18_082426) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "genres_pieces", id: false, force: :cascade do |t|
+    t.integer "piece_id"
+    t.integer "genre_id"
+    t.index ["genre_id"], name: "index_genres_pieces_on_genre_id"
+    t.index ["piece_id"], name: "index_genres_pieces_on_piece_id"
   end
 
   create_table "kinds_pieces", id: false, force: :cascade do |t|
@@ -63,13 +80,6 @@ ActiveRecord::Schema.define(version: 2018_08_18_082426) do
     t.integer "storage_id"
     t.index ["publishing_house_id"], name: "index_pieces_on_publishing_house_id"
     t.index ["storage_id"], name: "index_pieces_on_storage_id"
-  end
-
-  create_table "pieces_genres", id: false, force: :cascade do |t|
-    t.integer "piece_id"
-    t.integer "genre_id"
-    t.index ["genre_id"], name: "index_pieces_genres_on_genre_id"
-    t.index ["piece_id"], name: "index_pieces_genres_on_piece_id"
   end
 
   create_table "publishing_houses", force: :cascade do |t|

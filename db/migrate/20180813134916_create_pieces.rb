@@ -10,7 +10,7 @@ class CreatePieces < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
-    create_table :pieces_genres, id: false do |t|
+    create_table :genres_pieces, id: false do |t|
       t.belongs_to :piece, index: true
       t.belongs_to :genre, index: true
     end

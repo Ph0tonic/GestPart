@@ -6,6 +6,12 @@ Rails.application.routes.draw do
     member do
       post 'add_file'
       post 'config_file'
+      post 'add_genre'
+      post 'remove_genre'
+      post 'add_author'
+      post 'remove_author'
+      post 'add_arranger'
+      post 'remove_arranger'
     end
   end
   resources :genres

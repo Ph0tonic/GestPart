@@ -1,5 +1,5 @@
 class PiecesController < ApplicationController
-  before_action :set_piece, only: [:show, :edit, :update, :destroy]
+  before_action :set_piece, only: [:show, :edit, :update, :destroy, :add_genre, :remove_genre, :add_author, :remove_author, :add_arranger, :remove_arranger]
 
   # GET /pieces
   # GET /pieces.json
@@ -62,28 +62,82 @@ class PiecesController < ApplicationController
     redirect_to edit_piece_path(@piece)
   end
 
+  def add_genre
+    param = params[:piece][:tag_input]
+    genre = Genre.find_by(name: param)
+    if genre == nil
+      genre = Genre.create(name: param)
+    end
+    @piece.genres << genre
+  end
+
+  def remove_genre
+    param = params[:piece][:tag_input]
+    genre = @piece.genres.find_by(name: param)
+    if genre != nil
+      @piece.genres.delete(genre)
+    else
+      # Strange
+      raise "error"
+    end
+  end
+
+  def add_author
+    param = params[:piece][:tag_input]
+    compositor = Compositor.find_by(name: param)
+    if compositor == nil
+      compositor = Compositor.create(name: param)
+    end
+    Composition.create(author: true, compositor_id: compositor.id, piece_id: @piece.id)
+  end
+
+  def remove_author
+    param = params[:piece][:tag_input]
+    compositor = Compositor.find_by(name: param)
+    if compositor != nil
+      @piece.compositions.where(author: true, compositor_id: compositor.id).delete_all
+    else
+      # Strange
+      raise "error"
+    end
+  end
+
+  def add_arranger
+    param = params[:piece][:tag_input]
+    compositor = Compositor.find_by(name: param)
+    if compositor == nil
+      compositor = Compositor.create(name: param)
+    end
+    Composition.create(author: false, compositor_id: compositor.id, piece_id: @piece.id)
+  end
+
+  def remove_arranger
+    param = params[:piece][:tag_input]
+    compositor = Compositor.find_by(name: param)
+    if compositor != nil
+      @piece.compositions.where(author: false, compositor_id: compositor.id).delete_all
+    else
+      # Strange
+      raise "error"
+    end
+  end
+
   def config_file
     set_piece()
-
-    logger.warn "Ready to manage JSON data"
-    logger.warn params[:piece]
-
-    logger.warn params[:piece][:voices]
     final_data = JSON.parse(params[:piece][:voices])
-    logger.warn final_data
 
     final_data.each do |pdf_voice|
       if pdf_voice[8] > 0
-        # PdfVoice existante
+        # Existing PdfVoice
         pdfVoice = PdfVoice.find(pdf_voice[8])
         pdfVoice.start_page = pdf_voice[4]
         pdfVoice.nb_page = pdf_voice[5]
         pdfVoice.save()
       else
-        # PdfVoice new
+        # TODO FIX ISSUES WHEN SAVING MORE THAN ON TIME
+        # New PdfVoice
         PdfVoice.create(pdf_file_id: pdf_voice[6], voice_id: pdf_voice[7], start_page: pdf_voice[4], nb_page: pdf_voice[5])
       end
-
     end
   end
 
@@ -105,6 +159,6 @@ class PiecesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def piece_params
-      params.require(:piece).permit(:title, :distribution, :no, :divers, :publishing_house_id, :voices, :storage_id, :pdf_file_data => [])
+      params.require(:piece).permit(:title, :distribution, :no, :divers, :publishing_house_id, :voices, :storage_id, :tag_input, :pdf_file_data => [])
     end
 end

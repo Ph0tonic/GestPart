@@ -1,0 +1,422 @@
+
+<%= form_with(model: piece, local: true) do |form| %>
+  <% if piece.errors.any? %>
+    <div id="error_explanation">
+      <h2> prohibited this piece from being saved:</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="callout callout-danger">
+          <h5><i class="fas fa-exclamation-circle"></i> <%= pluralize(piece.errors.count, "error") %></h5>
+          <ul>
+          <% piece.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="card-title">Informations</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <%= form.label :title %>
+            <%= form.text_field :title, :class => "form-control" %>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <%= form.label :publishing_house_id %>
+              <%= collection_select(:piece, :publishing_house_id, PublishingHouse.all, :id, :name, {include_blank: true}, {:class => "form-control"}) %>
+            </div>
+            <div class="col-lg-6">
+              <%= form.label :storage_id %>
+              <%= collection_select(:piece, :storage_id, Storage.all, :id, :name, {include_blank: true}, {:class => "form-control"}) %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <%= form.label :distribution %>
+              <%= form.number_field :distribution, :class => "form-control" %>
+            </div>
+            <div class="col-lg-6">
+              <%= form.label :no %>
+              <%= form.number_field :no, :class => "form-control" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= form.label :divers %>
+            <%= form.text_area :divers, :class => "form-control", placeholder: "Enter here ..." %>
+          </div>
+          <div class="row justify-content-end">
+            <div class="col-auto">
+              <%= form.submit 'Save', :class => 'mt-2 btn btn-primary' %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-3 -->
+    </div>
+    <!-- /.col-md-6 -->
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">More</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label for="data-author">Authors</label>
+            <input class="form-control" type="text" id="data-author" value="<%= @piece.compositions.where(author: 1).collect { |x| x.compositor.name }.join(",") %>" data-role="tagsinput" />
+          </div>
+
+          <div class="form-group">
+            <label for="data-arranger">Arrangers</label>
+            <input class="form-control" type="text" id="data-arranger" value="<%= @piece.compositions.where(author: 0).collect { |x| x.compositor.name }.join(",") %>" data-role="tagsinput" />
+          </div>
+
+          <div class="form-group">
+            <label for="data-genre">Genres</label>
+            <input class="form-control" type="text" id="data-genre" value="<%= @piece.genres.collect { |x| x.name }.join(",") %>" data-role="tagsinput" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+<% end %>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card card-primary card-outline">
+      <div class="card-header">
+        <h5 class="card-title">Files</h5>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-lg-3">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileModal">
+              <i class="fas fa-plus"></i> Add files
+            </button>
+            <table class="table table-bordered table-hover" id="table-files">
+              <thead>
+                <tr>
+                  <th>Files</th>
+                  <th class="d-none">id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @piece.pdf_files.each do |pdf_file| %>
+                <tr>
+                  <td><%= pdf_file.attachement.filename %></td>
+                  <td class="d-none"><%= pdf_file.id %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-9">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#voiceModal">
+              <i class="fas fa-plus"></i> Add Voices
+            </button>
+            <table class="table table-bordered table-hover" id="table-voices">
+              <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Voice</th>
+                    <th>Number</th>
+                    <th>Key</th>
+                    <th>Start page</th>
+                    <th>Nb page</th>
+                    <th class="d-">id pdf_file</th>
+                    <th class="d-">id voice</th>
+                    <th class="d-">id pdf_voice</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <% @piece.pdf_files.each do |pdf_file| %>
+                  <% count=0 %>
+                  <% pdf_file.pdf_voices.order(start_page: :asc).each do |pdf_voice| %>
+                    <tr>
+                      <td><%= count+=1 %></td>
+                      <td><%= pdf_voice.voice.name %></td>
+                      <th><%= pdf_voice.voice.number %></th>
+                      <th><%= pdf_voice.voice.key %></th>
+                      <td><%= pdf_voice.start_page %></td>
+                      <td><%= pdf_voice.nb_page %></td>
+                      <td class="d-"><%= pdf_file.id %></td>
+                      <td class="d-"><%= pdf_voice.voice_id %></td>
+                      <td class="d-"><%= pdf_voice.id %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+            <button id="save-pdfvoice" type="button" class="btn btn-primary">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal load file -->
+<div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select your files</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= form_for(@piece, url: add_file_piece_path, multipart: true, method: :post) do |form| %>
+        <div class="modal-body">
+          <div class="field">
+            <%= form.file_field :pdf_file_data, multiple: true, class: "form-control-file" %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <%= form.submit "Upload files", class:"btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal add voices -->
+<div class="modal fade" id="voiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add voices</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-option form-inline">
+          <label for="nbpage">Nb of page per voice</label>
+          <input id="nbpage" type="number" min="1" value="1" class="form-control">
+        </diV>
+        <hr>
+        <table id="addVoiceTable" class="table" style="width:100%">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Voice</th>
+              <th>Number</th>
+              <th>Key</th>
+              <th>order</th>
+              <th>id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% Voice.order(orderby: :asc).each do |voice| %>
+              <tr>
+                <td></td>
+                <td><%= voice.name %></td>
+                <td><%= voice.number %></td>
+                <td><%= voice.key %></td>
+                <td><%= voice.orderby %></td>
+                <td><%= voice.id %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button id="add-voices" type="button" class="btn btn-primary" data-dismiss="modal">Add voices</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+let initTagInput = function(){
+  let sendData = function(action, model, data){
+    Rails.ajax({
+      type: "POST",
+      url: "/pieces/<%= @piece.id %>/"+action+"_"+model,
+      data: "piece[tag_input]="+data,
+      success: function(response){
+        // alert('successfully');
+      },
+      error: function(repsonse){
+       alert('error ajax');
+      }
+    });
+  }
+
+  //Définition des champs à initialiser automatiquement
+  let data = [{
+    "model":"genres",
+    "name":"genre",
+    "key":"name"
+  },{
+    "model":"compositors",
+    "name":"author",
+    "key":"name"
+  },{
+    "model":"compositors",
+    "name":"arranger",
+    "key":"name"
+  }];
+
+  data.forEach(function(element){
+    let databasics = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: "/"+element.model+".json"
+    });
+
+    // initialize the bloodhound suggestion engine
+    databasics.initialize();
+
+    let elt = $('#data-'+element.name);
+    elt.tagsinput({
+      typeaheadjs: [{
+        highlight: true
+      },{
+        name: element.model,
+        displayKey: element.key,
+        source: databasics.ttAdapter()
+      }],
+      freeInput: true,
+      tagClass: "badge-primary"
+    });
+
+    // beforeItemAdd 	Triggered just before an item gets added. Example:
+    elt.on('beforeItemAdd', function(event) {
+      sendData("add", element.name, event.item)
+      console.log("Before add item " + event.item)
+    });
+
+    // itemRemoved 	Triggered just after an item got removed. Example:
+    elt.on('itemRemoved', function(event) {
+      sendData("remove", element.name, event.item)
+      console.log("Removed item : " + event.item)
+    });
+  })
+}
+
+var idPdfFile = null;
+$(document).ready( function () {
+
+  initTagInput();
+
+  let tablevoices = $('#table-voices').DataTable({
+    dom: "rt",
+    columnDefs: [
+      {
+        targets: [4,6,7,8],
+        visible: false
+      },
+      {
+        orderable: false,
+        targets: [2,3,4,5,6,7,8]
+      }
+    ],
+    rowReorder: true,
+    select: true
+  });
+
+  let tablefiles = $('#table-files').DataTable({
+    select: {
+      style: 'single'
+    },
+    columnDefs: [{
+      "targets": [1],
+      "visible": false
+    }],
+    dom: "rt",
+    "ordering": false
+  });
+
+  tablefiles.on('select', function(e, dt, type, indexes){
+    idPdfFile = tablefiles.row(indexes).data()[1];
+    tablevoices.column(6).search(tablefiles.row(indexes).data()[1],true).draw();
+  });
+
+  if(tablefiles.rows().count()>0){
+    tablefiles.row(0).select();
+    idPdfFile = tablefiles.row(0).data()[1];
+  }
+
+  let tableAddVoices = $('#addVoiceTable').DataTable( {
+    columnDefs: [{
+      orderable: false,
+      className: 'select-checkbox',
+      targets: 0
+    },{
+      targets: [4,5],
+      visible: false
+    },{
+      targets: [1,2,3],
+      orderable: false
+    }],
+    select: {
+      style:    'os',
+      selector: 'td:first-child'
+    },
+    order: [[ 4, 'asc' ]],
+    dom: "Blfrtip"
+  });
+
+  $('#add-voices').on('click',function(){
+    let data = tableAddVoices.rows({selected:  true}).data();
+
+    for (var i=0; i < data.length ;i++){
+       tablevoices.row.add([
+         tablevoices.rows().count()+1,
+         data[i][1],
+         data[i][2],
+         data[i][3],
+         0, // Start page will be calculated when saving
+         $('#nbpage').val(), // Nb page
+         idPdfFile,
+         data[i][5],
+         0
+       ]).draw();
+    }
+  });
+  $('#save-pdfvoice').on('click',function(){
+    //Update PageStart for reccords
+    let m = new Map();
+
+    data = tablevoices.rows({order:'applied'}).data().toArray();
+    for (let i=0;i<data.length;i++){
+      if(!(data[i][6] in m)){
+        m[data[i][6]] = 1
+      }
+      data[i][4] = m[data[i][6]]
+      m[data[i][6]] = parseInt(data[i][5]) + parseInt(m[data[i][6]])
+
+      data[i][8] = parseInt(data[i][8])
+    }
+
+    Rails.ajax({
+      type: "POST",
+      url: "/pieces/<%= @piece.id %>/config_file",
+      data: "piece[voices]="+JSON.stringify(data),
+      success: function(repsonse){
+        // alert('successfully');
+      },
+      error: function(response){
+       alert('error ajax');
+      }
+    });
+  });
+});
+</script>

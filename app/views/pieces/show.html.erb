@@ -23,51 +23,160 @@
 <!-- Main content -->
 <div class="content">
   <div class="container-fluid">
-    <%= form_with(model: @piece, local: true) do |form| %>
-      <div class="row">
-        <div class="col-lg-9">
-          <div class="card card-primary card-outline">
-            <div class="card-header">
-              <h5 class="card-title">Informations</h5>
+    <div class="row">
+      <div class="col-lg-8">
+        <%= form_with(model: @piece, local: true) do |form| %>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h5 class="card-title">Informations</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <%= form.label :title %>
+              <%= form.text_field :title, :class => "form-control", :disabled => true %>
             </div>
-            <div class="card-body">
-              <div class="form-group">
-                <%= form.label :title %>
-                <%= form.text_field :title, :class => "form-control", :disabled => true %>
+            <div class="row">
+              <div class="col-lg-6">
+                <%= form.label :publishing_house_id %>
+                <%= collection_select(:piece, :publishing_house_id, PublishingHouse.all, :id, :name, {include_blank: true}, {:class => "form-control", :disabled => true}) %>
               </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <%= form.label :publishing_house_id %>
-                  <%= collection_select(:piece, :publishing_house_id, PublishingHouse.all, :id, :name, {include_blank: true}, {:class => "form-control", :disabled => true}) %>
-                </div>
-                <div class="col-lg-6">
-                  <%= form.label :storage_id %>
-                  <%= collection_select(:piece, :storage_id, Storage.all, :id, :name, {include_blank: true}, {:class => "form-control", :disabled => true}) %>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
-                  <%= form.label :distribution %>
-                  <%= form.number_field :distribution, :class => "form-control", :disabled => true %>
-                </div>
-                <div class="col-lg-6">
-                  <%= form.label :no %>
-                  <%= form.number_field :no, :class => "form-control", :disabled => true %>
-                </div>
-              </div>
-              <div class="form-group">
-                <%= form.label :divers %>
-                <%= form.text_area :divers, :class => "form-control", :disabled => true %>
+              <div class="col-lg-6">
+                <%= form.label :storage_id %>
+                <%= collection_select(:piece, :storage_id, Storage.all, :id, :name, {include_blank: true}, {:class => "form-control", :disabled => true}) %>
               </div>
             </div>
-            <div class="card-footer">
-              <%= link_to 'Edit', edit_piece_path(@piece), class: "btn btn-warning" %>
+            <div class="row">
+              <div class="col-lg-6">
+                <%= form.label :distribution %>
+                <%= form.number_field :distribution, :class => "form-control", :disabled => true %>
+              </div>
+              <div class="col-lg-6">
+                <%= form.label :no %>
+                <%= form.number_field :no, :class => "form-control", :disabled => true %>
+              </div>
+            </div>
+            <div class="form-group">
+              <%= form.label :divers %>
+              <%= form.text_area :divers, :class => "form-control", :disabled => true %>
             </div>
           </div>
+          <div class="card-footer">
+            <%= link_to 'Edit', edit_piece_path(@piece), class: "btn btn-warning" %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+      <!-- /.col-md-8 -->
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="m-0">More</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Authors</label>
+              <br>
+              <% @piece.compositions.where(author: 1).collect { |x| x.compositor.name }.each do |elt| %>
+                <span class="badge badge-primary badge-bigger"><%= elt %></span>
+              <% end %>
+            </div>
+
+            <div class="form-group">
+              <label>Arrangers</label>
+              <br>
+              <% @piece.compositions.where(author: 0).collect { |x| x.compositor.name }.each do |elt| %>
+                <span class="badge badge-primary badge-bigger"><%= elt %></span>
+              <% end %>
+            </div>
+
+            <div class="form-group">
+              <label>Genres</label>
+              <br>
+              <% @piece.genres.collect { |x| x.name }.each do |elt| %>
+                <span class="badge badge-primary badge-bigger"><%= elt %></span>
+              <% end %>
+            </div>
+
+            <script>
+            let init = function(){
+              let sendData = function(action, model, data){
+                Rails.ajax({
+                  type: "POST",
+                  url: "/pieces/<%= @piece.id %>/"+action+"_"+model,
+                  data: "piece[tag_input]="+data,
+                  success: function(response){
+                    alert('successfully');
+                  },
+                  error: function(repsonse){
+                    alert('error ajax');
+                  }
+                });
+              }
+
+              //Définition des champs à initialiser automatiquement
+              let data = [{
+                "model":"genres",
+                "name":"genre",
+                "key":"name"
+              },{
+                "model":"compositors",
+                "name":"author",
+                "key":"name"
+              },{
+                "model":"compositors",
+                "name":"arranger",
+                "key":"name"
+              }];
+
+              data.forEach(function(element){
+                let databasics = new Bloodhound({
+                  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+                  queryTokenizer: Bloodhound.tokenizers.whitespace,
+                  remote: "/"+element.model+".json"
+                });
+
+                // initialize the bloodhound suggestion engine
+                databasics.initialize();
+
+                let elt = $('#data-'+element.name);
+                elt.tagsinput({
+                  typeaheadjs: [{
+                    highlight: true
+                  },{
+                    name: element.model,
+                    displayKey: element.key,
+                    source: databasics.ttAdapter()
+                  }],
+                  freeInput: true,
+                });
+
+                // beforeItemAdd 	Triggered just before an item gets added. Example:
+                elt.on('beforeItemAdd', function(event) {
+                  // event.item: contains the item
+                  // event.cancel: set to true to prevent the item getting added
+                  sendData("add", element.name, event.item)
+                  console.log("Before add item " + event.item)
+                });
+
+                // itemRemoved 	Triggered just after an item got removed. Example:
+                elt.on('itemRemoved', function(event) {
+                  // event.item: contains the item
+                  // TODO Remove the item
+                  sendData("remove", element.name, event.item)
+                  console.log("Removed item : " + event.item)
+                });
+              })
+            }
+
+            init();
+          </script>
         </div>
       </div>
-      <!-- /.row -->
-    <% end %>
+    </div>
+    <!-- /.col-md-4 -->
+  </div>
+  <!-- /.row -->
+
 
     <div class="row">
       <div class="col-12">
@@ -93,6 +202,7 @@
                   <td><%= row['name'] %></td>
                   <td>
                     <a href="/pdf_voices/<%= row['pdf_voice_id'] %>/download">Download</a>
+                    <a href="/pdf_invoice/<%= row['pdf_voice_id'] %>/download">Download</a>
                   <td class="d-"><%= row['pdf_voice_id'] %></td>
                 </tr>
                 <% end %>
