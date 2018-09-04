@@ -1,27 +1,77 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Compositors</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item active">Compositors</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="card-title">Compositors</h3>
+              </div>
+              <div class="col-sm-6">
+                <%= link_to(new_compositor_path, class: "btn btn-success float-right") do %>
+                  <i class="fas fa-plus-circle"></i> <span>Add New Compositor</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="compositors-table" class="table table-bordered table-striped dt-responsive nowrap dataTable" role="grid" aria-describedby="compositors-info" style="width:100%">
+              <thead>
+                <tr role="row">
+                  <th class="sorting_asc" tabindex="0" aria-controls="compositors-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @compositor.each do |compositor| %>
+                <tr role="row" class="odd">
+                  <td><%= compositor.name %></td>
+                </tr>
+                <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th class="sorting_asc" tabindex="0" aria-controls="compositors-table" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">name</th>
+                  <th>Actions</th>
+                </tr>
+              </tfoot>
+            </table>
+            <script>
+            $(document).ready( function () {
+              $('#compositors-table').DataTable({
+                "columns": [
+                  null
+                ]});
+            });
+            </script>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
 <p id="notice"><%= notice %></p>
-
-<h1>Compositors</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @compositors.each do |compositor| %>
-      <tr>
-        <td><%= compositor.name %></td>
-        <td><%= link_to 'Show', compositor %></td>
-        <td><%= link_to 'Edit', edit_compositor_path(compositor) %></td>
-        <td><%= link_to 'Destroy', compositor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Compositor', new_compositor_path %>

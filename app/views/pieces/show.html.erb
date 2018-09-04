@@ -68,7 +68,7 @@
       </div>
       <!-- /.col-md-8 -->
       <div class="col-lg-4">
-        <div class="card">
+        <div class="card card-primary card-outline">
           <div class="card-header">
             <h5 class="m-0">More</h5>
           </div>
@@ -96,87 +96,12 @@
                 <span class="badge badge-primary badge-bigger"><%= elt %></span>
               <% end %>
             </div>
-
-            <script>
-            let init = function(){
-              let sendData = function(action, model, data){
-                Rails.ajax({
-                  type: "POST",
-                  url: "/pieces/<%= @piece.id %>/"+action+"_"+model,
-                  data: "piece[tag_input]="+data,
-                  success: function(response){
-                    alert('successfully');
-                  },
-                  error: function(repsonse){
-                    alert('error ajax');
-                  }
-                });
-              }
-
-              //Définition des champs à initialiser automatiquement
-              let data = [{
-                "model":"genres",
-                "name":"genre",
-                "key":"name"
-              },{
-                "model":"compositors",
-                "name":"author",
-                "key":"name"
-              },{
-                "model":"compositors",
-                "name":"arranger",
-                "key":"name"
-              }];
-
-              data.forEach(function(element){
-                let databasics = new Bloodhound({
-                  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
-                  queryTokenizer: Bloodhound.tokenizers.whitespace,
-                  remote: "/"+element.model+".json"
-                });
-
-                // initialize the bloodhound suggestion engine
-                databasics.initialize();
-
-                let elt = $('#data-'+element.name);
-                elt.tagsinput({
-                  typeaheadjs: [{
-                    highlight: true
-                  },{
-                    name: element.model,
-                    displayKey: element.key,
-                    source: databasics.ttAdapter()
-                  }],
-                  freeInput: true,
-                });
-
-                // beforeItemAdd 	Triggered just before an item gets added. Example:
-                elt.on('beforeItemAdd', function(event) {
-                  // event.item: contains the item
-                  // event.cancel: set to true to prevent the item getting added
-                  sendData("add", element.name, event.item)
-                  console.log("Before add item " + event.item)
-                });
-
-                // itemRemoved 	Triggered just after an item got removed. Example:
-                elt.on('itemRemoved', function(event) {
-                  // event.item: contains the item
-                  // TODO Remove the item
-                  sendData("remove", element.name, event.item)
-                  console.log("Removed item : " + event.item)
-                });
-              })
-            }
-
-            init();
-          </script>
+          </div>
         </div>
       </div>
+      <!-- /.col-md-4 -->
     </div>
-    <!-- /.col-md-4 -->
-  </div>
-  <!-- /.row -->
-
+    <!-- /.row -->
 
     <div class="row">
       <div class="col-12">
@@ -194,15 +119,12 @@
                 </tr>
               </thead>
               <tbody>
-                <%
-                result = ActiveRecord::Base.connection.exec_query("SELECT pdf_voices.id as 'pdf_voice_id', pdf_voices.*, voices.* FROM voices, pdf_voices, pdf_files WHERE pdf_voices.voice_id = voices.id AND pdf_voices.pdf_file_id = pdf_files.id AND pdf_files.piece_id = "+@piece.id.to_s+" ORDER BY 'orderby' ASC")
-                result.each do |row|
-                %>
+                <% pdf_file_list_voices(@piece.id.to_s).each do |row| %>
                 <tr>
                   <td><%= row['name'] %></td>
                   <td>
                     <a href="/pdf_voices/<%= row['pdf_voice_id'] %>/download">Download</a>
-                    <a href="/pdf_invoice/<%= row['pdf_voice_id'] %>/download">Download</a>
+                    <!-- <a href="/pdf_invoice/<%= row['pdf_voice_id'] %>/download">Download</a> -->
                   <td class="d-"><%= row['pdf_voice_id'] %></td>
                 </tr>
                 <% end %>
@@ -215,3 +137,77 @@
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<script>
+let init = function(){
+  let sendData = function(action, model, data){
+    Rails.ajax({
+      type: "POST",
+      url: "/pieces/<%= @piece.id %>/"+action+"_"+model,
+      data: "piece[tag_input]="+data,
+      success: function(response){
+        alert('successfully');
+      },
+      error: function(repsonse){
+        alert('error ajax');
+      }
+    });
+  }
+
+  //Définition des champs à initialiser automatiquement
+  let data = [{
+    "model":"genres",
+    "name":"genre",
+    "key":"name"
+  },{
+    "model":"compositors",
+    "name":"author",
+    "key":"name"
+  },{
+    "model":"compositors",
+    "name":"arranger",
+    "key":"name"
+  }];
+
+  data.forEach(function(element){
+    let databasics = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      remote: "/"+element.model+".json"
+    });
+
+    // initialize the bloodhound suggestion engine
+    databasics.initialize();
+
+    let elt = $('#data-'+element.name);
+    elt.tagsinput({
+      typeaheadjs: [{
+        highlight: true
+      },{
+        name: element.model,
+        displayKey: element.key,
+        source: databasics.ttAdapter()
+      }],
+      freeInput: true,
+    });
+
+    // beforeItemAdd 	Triggered just before an item gets added. Example:
+    elt.on('beforeItemAdd', function(event) {
+      // event.item: contains the item
+      // event.cancel: set to true to prevent the item getting added
+      sendData("add", element.name, event.item)
+      console.log("Before add item " + event.item)
+    });
+
+    // itemRemoved 	Triggered just after an item got removed. Example:
+    elt.on('itemRemoved', function(event) {
+      // event.item: contains the item
+      // TODO Remove the item
+      sendData("remove", element.name, event.item)
+      console.log("Removed item : " + event.item)
+    });
+  })
+}
+
+init();
+</script>

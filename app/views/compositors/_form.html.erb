@@ -1,22 +1,38 @@
 <%= form_with(model: compositor, local: true) do |form| %>
   <% if compositor.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(compositor.errors.count, "error") %> prohibited this compositor from being saved:</h2>
-
-      <ul>
-      <% compositor.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+      <h2> prohibited this compositor from being saved:</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="callout callout-danger">
+          <h5><i class="fas fa-exclamation-circle"></i> <%= pluralize(compositor.errors.count, "error") %> prohibited this compositor from being saved:</h5>
+          <ul>
+          <% compositor.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h5 class="card-title">Informations</h5>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <%= form.label :name %>
+            <%= form.text_field :name, :class => "form-control" %>
+          </div>
+        </div>
+      </div>
+      <!-- /.col-md-3 -->
+    </div>
+    <!-- /.col-md-12 -->
   </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+  <!-- /.row -->
 <% end %>

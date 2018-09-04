@@ -64,7 +64,7 @@
     </div>
     <!-- /.col-md-6 -->
     <div class="col-lg-4">
-      <div class="card">
+      <div class="card card-primary card-outline">
         <div class="card-header">
           <h5 class="m-0">More</h5>
         </div>
@@ -294,7 +294,7 @@ let initTagInput = function(){
         source: databasics.ttAdapter()
       }],
       freeInput: true,
-      tagClass: "badge-primary"
+      tagClass: "badge badge-primary badge-bigger"
     });
 
     // beforeItemAdd 	Triggered just before an item gets added. Example:
@@ -317,7 +317,7 @@ $(document).ready( function () {
   initTagInput();
 
   let tablevoices = $('#table-voices').DataTable({
-    dom: "rt",
+    dom: "tpr",
     columnDefs: [
       {
         targets: [4,6,7,8],
@@ -340,7 +340,7 @@ $(document).ready( function () {
       "targets": [1],
       "visible": false
     }],
-    dom: "rt",
+    dom: "tpr",
     "ordering": false
   });
 

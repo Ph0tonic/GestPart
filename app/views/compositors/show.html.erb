@@ -1,9 +1,47 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @compositor.name %>
-</p>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark"><%= @compositor.title %></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><%= link_to 'Compositors', compositors_path %></li>
+          <li class="breadcrumb-item active">Show</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
-<%= link_to 'Edit', edit_compositor_path(@compositor) %> |
-<%= link_to 'Back', compositors_path %>
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-8">
+        <%= form_with(model: @compositor, local: true) do |form| %>
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h5 class="card-title">Informations</h5>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <%= form.label :name %>
+              <%= form.text :name, :class => "form-control", :disabled => true %>
+            </div>
+          </div>
+          <div class="card-footer">
+            <%= link_to 'Edit', edit_compositor_path(@compositor), class: "btn btn-warning" %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+</div>
+<!-- /.content -->
