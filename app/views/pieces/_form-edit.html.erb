@@ -71,17 +71,17 @@
         <div class="card-body">
           <div class="form-group">
             <label for="data-author">Authors</label>
-            <input class="form-control" type="text" id="data-author" value="<%= @piece.compositions.where(author: 1).collect { |x| x.compositor.name }.join(",") %>" data-role="tagsinput" />
+            <input class="form-control" type="text" id="data-author" value="<%= @piece.compositions.where(author: 1).collect { |x| x.compositor.name }.join(",") %>"/>
           </div>
 
           <div class="form-group">
             <label for="data-arranger">Arrangers</label>
-            <input class="form-control" type="text" id="data-arranger" value="<%= @piece.compositions.where(author: 0).collect { |x| x.compositor.name }.join(",") %>" data-role="tagsinput" />
+            <input class="form-control" type="text" id="data-arranger" value="<%= @piece.compositions.where(author: 0).collect { |x| x.compositor.name }.join(",") %>"/>
           </div>
 
           <div class="form-group">
             <label for="data-genre">Genres</label>
-            <input class="form-control" type="text" id="data-genre" value="<%= @piece.genres.collect { |x| x.name }.join(",") %>" data-role="tagsinput" />
+            <input class="form-control" type="text" id="data-genre" value="<%= @piece.genres.collect { |x| x.name }.join(",") %>"/>
           </div>
         </div>
       </div>
@@ -261,7 +261,7 @@ let initTagInput = function(){
   }
 
   //Définition des champs à initialiser automatiquement
-  let data = [{
+  let settings = [{
     'model':'genres',
     'name':'genre',
     'key':'name'
@@ -275,26 +275,30 @@ let initTagInput = function(){
     'key':'name'
   }];
 
-  data.forEach(function(element){
-    console.log(element)
-    let databasics = new Bloodhound({
-      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+  settings.forEach(function(element){
+    let data = new Bloodhound({
+      datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.name);},
       queryTokenizer: Bloodhound.tokenizers.whitespace,
-      remote: 'http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/assets/cities.json'
+      prefetch: {
+        url: '/'+element.model+'.json',
+        cacheKey: 'cache_'+element.name
+      }
     });
 
     // initialize the bloodhound suggestion engine
-    databasics.initialize();
-    console.log(databasics)
+    data.clearPrefetchCache();
+    data.initialize();
+
+    console.log(data)
 
     let elt = $('#data-'+element.name);
     elt.tagsinput({
       typeaheadjs: [{
         highlight: true
       },{
-        name: element.model,
-        displayKey: 'text',
-        source: databasics.ttAdapter()
+        name: element.name,
+        displayKey: element.key,
+        source: data.ttAdapter()
       }],
       freeInput: true
     });
@@ -310,8 +314,8 @@ let initTagInput = function(){
       sendData("remove", element.name, event.item)
       console.log("Removed item : " + event.item)
     });
-  })
-}
+  });
+};
 
 var idPdfFile = null;
 $(document).ready( function () {
