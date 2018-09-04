@@ -245,6 +245,7 @@
 <script>
 
 let initTagInput = function(){
+  console.log("Init tag input")
   let sendData = function(action, model, data){
     Rails.ajax({
       type: "POST",
@@ -261,28 +262,30 @@ let initTagInput = function(){
 
   //Définition des champs à initialiser automatiquement
   let data = [{
-    "model":"genres",
-    "name":"genre",
-    "key":"name"
+    'model':'genres',
+    'name':'genre',
+    'key':'name'
   },{
-    "model":"compositors",
-    "name":"author",
-    "key":"name"
+    'model':'compositors',
+    'name':'author',
+    'key':'name'
   },{
-    "model":"compositors",
-    "name":"arranger",
-    "key":"name"
+    'model':'compositors',
+    'name':'arranger',
+    'key':'name'
   }];
 
   data.forEach(function(element){
+    console.log(element)
     let databasics = new Bloodhound({
       datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
       queryTokenizer: Bloodhound.tokenizers.whitespace,
-      remote: "/"+element.model+".json"
+      remote: 'http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/assets/cities.json'
     });
 
     // initialize the bloodhound suggestion engine
     databasics.initialize();
+    console.log(databasics)
 
     let elt = $('#data-'+element.name);
     elt.tagsinput({
@@ -290,11 +293,10 @@ let initTagInput = function(){
         highlight: true
       },{
         name: element.model,
-        displayKey: element.key,
+        displayKey: 'text',
         source: databasics.ttAdapter()
       }],
-      freeInput: true,
-      tagClass: "badge badge-primary badge-bigger"
+      freeInput: true
     });
 
     // beforeItemAdd 	Triggered just before an item gets added. Example:

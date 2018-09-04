@@ -18,7 +18,7 @@
 //= require admin-lte/dist/js/adminlte.min.js
 //= require turbolinks
 //= require tagsinput.js
-//= require ./typeahead/typeahead.jquery.min.js
-//= require ./typeahead/typeahead.bundle.min.js
-//= require ./typeahead/bloodhound.min.js
+// require ./typeahead/typeahead.jquery.min.js
+// require ./typeahead/typeahead.bundle.min.js
+// require ./typeahead/bloodhound.min.js
 //= require_tree .
