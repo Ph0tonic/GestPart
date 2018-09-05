@@ -113,7 +113,9 @@
             <table class="table table-bordered table-hover" id="table-files">
               <thead>
                 <tr>
-                  <th>Files</th>
+                  <th class="sorting" tabindex="0" aria-controls="voices-table" rowspan="1" colspan="1" aria-label="Voice">Voice</th>
+                  <th class="sorting" tabindex="0" aria-controls="voices-table" rowspan="1" colspan="1" aria-label="Number">Number</th>
+                  <th class="sorting" tabindex="0" aria-controls="voices-table" rowspan="1" colspan="1" aria-label="Number">Key</th>
                   <th>Actions</th>
                   <th class="d-none">id</th>
                 </tr>
@@ -122,6 +124,8 @@
                 <% pdf_file_list_voices(@piece.id.to_s).each do |row| %>
                 <tr>
                   <td><%= row['name'] %></td>
+                  <td><%= row['number'] %></td>
+                  <td><%= row['key'] %></td>
                   <td>
                     <a href="/pdf_voices/<%= row['pdf_voice_id'] %>/download"><i class="fas fa-file-download"></i></a>
                     <a class="send-link" href="#" data-toggle="modal" data-target="#sendModal" data-value="<%= row['pdf_voice_id'] %>"><i class="far fa-envelope"></i></a>

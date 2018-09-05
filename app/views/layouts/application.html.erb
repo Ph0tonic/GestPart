@@ -187,20 +187,38 @@
               <p>Storage</p>
             <% end %>
           </li>
-          <li class="nav-item">
-            <%= link_to(storage_types_path, class: 'nav-link' ) do %>
-              <i class="fas fa-boxes nav-icon"></i>
-              <p>Storage type</p>
-            <% end %>
-          </li>
-          <li class="nav-item">
-            <%= link_to(voices_path, class: 'nav-link' ) do %>
-              <i class="fas fa-drum nav-icon"></i>
-              <p>Voices</p>
-            <% end %>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-sliders-h"></i>
+              <p>
+                Settings
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview" style="display: none;">
+              <li class="nav-item">
+                <%= link_to(storage_types_path, class: 'nav-link' ) do %>
+                  <i class="fas fa-boxes nav-icon"></i>
+                  <p>Storage type</p>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to(voices_path, class: 'nav-link' ) do %>
+                  <i class="fas fa-drum nav-icon"></i>
+                  <p>Voices</p>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to(compositors_path, class: 'nav-link' ) do %>
+                  <i class="fas fa-male nav-icon"></i>
+                  <p>Compositors</p>
+                <% end %>
+              </li>
+            </ul>
           </li>
 
-          <!-- Disabled ->
+          <!-- Coming soon ->
           <li class="nav-item">
             <%= link_to(pieces_path, class: 'nav-link' ) do %>
               <i class="fas fa-tshirt nav-icon"></i>
@@ -213,7 +231,6 @@
               <p>Instrument</p>
             <% end %>
           </li>
-
           <!---->
 
         </ul>

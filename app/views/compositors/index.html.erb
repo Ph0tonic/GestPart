@@ -43,9 +43,28 @@
                 </tr>
               </thead>
               <tbody>
-                <% @compositor.each do |compositor| %>
+                <% @compositors.each do |compositor| %>
                 <tr role="row" class="odd">
                   <td><%= compositor.name %></td>
+                  <td>
+                    <ul class="list-inline">
+                      <li class="list-inline-item">
+                        <%= link_to(compositor) do %>
+                        <i class="far fa-eye"></i>
+                        <% end %>
+                      </li>
+                      <li class="list-inline-item">
+                        <%= link_to(edit_compositor_path(compositor)) do %>
+                        <i class="fas fa-pencil-alt text-warning"></i>
+                        <% end %>
+                      </li>
+                      <li class="list-inline-item">
+                        <%= link_to(compositor, method: :delete, data: { confirm: 'Are you sure?' }) do %>
+                        <i class="fas fa-trash text-danger"></i>
+                        <% end %>
+                      </li>
+                    </ul>
+                  </td>
                 </tr>
                 <% end %>
               </tbody>
