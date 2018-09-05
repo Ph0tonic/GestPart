@@ -126,19 +126,24 @@ class PiecesController < ApplicationController
     set_piece()
     final_data = JSON.parse(params[:piece][:voices])
 
+    # Suppression des éléments supprimé de la table
+    @piece.pdf_voices().where.not(id: final_data.map {|a| a[4]}).destroy_all
+
     final_data.each do |pdf_voice|
-      if pdf_voice[8] > 0
+      if pdf_voice[4] > 0
         # Existing PdfVoice
-        pdfVoice = PdfVoice.find(pdf_voice[8])
-        pdfVoice.start_page = pdf_voice[4]
-        pdfVoice.nb_page = pdf_voice[5]
+        pdfVoice = PdfVoice.find(pdf_voice[4])
+        pdfVoice.start_page = pdf_voice[0]
+        pdfVoice.nb_page = pdf_voice[1]
         pdfVoice.save()
       else
-        # TODO FIX ISSUES WHEN SAVING MORE THAN ON TIME
         # New PdfVoice
-        PdfVoice.create(pdf_file_id: pdf_voice[6], voice_id: pdf_voice[7], start_page: pdf_voice[4], nb_page: pdf_voice[5])
+        pdfVoice = PdfVoice.create(pdf_file_id: pdf_voice[2], voice_id: pdf_voice[3], start_page: pdf_voice[0], nb_page: pdf_voice[1])
+        pdf_voice[4] = pdfVoice.id
       end
     end
+
+    logger.warn final_data
   end
 
   # DELETE /pieces/1

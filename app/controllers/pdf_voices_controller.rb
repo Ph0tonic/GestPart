@@ -62,31 +62,6 @@ class PdfVoicesController < ApplicationController
     redirect_to edit_piece_path(@piece)
   end
 
-  def config_file
-    set_piece()
-
-    logger.warn "Ready to manage JSON data"
-    logger.warn params[:piece]
-
-    logger.warn params[:piece][:voices]
-    final_data = JSON.parse(params[:piece][:voices])
-    logger.warn final_data
-
-    final_data.each do |pdf_voice|
-      if pdf_voice[8] > 0
-        # PdfVoice existante
-        pdfVoice = PdfVoice.find(pdf_voice[8])
-        pdfVoice.start_page = pdf_voice[4]
-        pdfVoice.nb_page = pdf_voice[5]
-        pdfVoice.save()
-      else
-        # PdfVoice new
-        PdfVoice.create(pdf_file_id: pdf_voice[6], voice_id: pdf_voice[7], start_page: pdf_voice[4], nb_page: pdf_voice[5])
-      end
-
-    end
-  end
-
   # DELETE /pieces/1
   # DELETE /pieces/1.json
   def destroy

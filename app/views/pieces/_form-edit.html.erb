@@ -100,7 +100,7 @@
       <div class="card-body">
 
         <div class="row">
-          <div class="col-lg-3">
+          <div class="col-lg-4">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileModal">
               <i class="fas fa-plus"></i> Add files
             </button>
@@ -121,7 +121,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-lg-9">
+          <div class="col-lg-8">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#voiceModal">
               <i class="fas fa-plus"></i> Add Voices
             </button>
@@ -134,9 +134,10 @@
                     <th>Key</th>
                     <th>Start page</th>
                     <th>Nb page</th>
-                    <th class="d-">id pdf_file</th>
-                    <th class="d-">id voice</th>
-                    <th class="d-">id pdf_voice</th>
+                    <th>id pdf_file</th>
+                    <th>id voice</th>
+                    <th>id pdf_voice</th>
+                    <th>Action</th>
                   </tr>
               </thead>
               <tbody>
@@ -150,9 +151,10 @@
                       <th><%= pdf_voice.voice.key %></th>
                       <td><%= pdf_voice.start_page %></td>
                       <td><%= pdf_voice.nb_page %></td>
-                      <td class="d-"><%= pdf_file.id %></td>
-                      <td class="d-"><%= pdf_voice.voice_id %></td>
-                      <td class="d-"><%= pdf_voice.id %></td>
+                      <td><%= pdf_file.id %></td>
+                      <td><%= pdf_voice.voice_id %></td>
+                      <td><%= pdf_voice.id %></td>
+                      <td><i class="fas fa-trash text-danger rm-danger"></i></td>
                     </tr>
                   <% end %>
                 <% end %>
@@ -245,7 +247,6 @@
 <script>
 
 let initTagInput = function(){
-  console.log("Init tag input")
   let sendData = function(action, model, data){
     Rails.ajax({
       type: "POST",
@@ -289,8 +290,6 @@ let initTagInput = function(){
     data.clearPrefetchCache();
     data.initialize();
 
-    console.log(data)
-
     let elt = $('#data-'+element.name);
     elt.tagsinput({
       typeaheadjs: [{
@@ -306,13 +305,11 @@ let initTagInput = function(){
     // beforeItemAdd 	Triggered just before an item gets added. Example:
     elt.on('beforeItemAdd', function(event) {
       sendData("add", element.name, event.item)
-      console.log("Before add item " + event.item)
     });
 
     // itemRemoved 	Triggered just after an item got removed. Example:
     elt.on('itemRemoved', function(event) {
       sendData("remove", element.name, event.item)
-      console.log("Removed item : " + event.item)
     });
   });
 };
@@ -331,12 +328,20 @@ $(document).ready( function () {
       },
       {
         orderable: false,
-        targets: [2,3,4,5,6,7,8]
+        targets: [2,3,4,5,6,7,8,9]
       }
     ],
     rowReorder: true,
-    select: true
+    select: true,
+    responsive: true
   });
+
+  let setupRemoveVoice = function(){
+    $('#table-voices tbody').on('click', '.rm-danger', function () {
+      tablevoices.row($(this).parents('tr')).remove().draw();
+    });
+  }
+  setupRemoveVoice();
 
   let tablefiles = $('#table-files').DataTable({
     select: {
@@ -393,16 +398,20 @@ $(document).ready( function () {
          $('#nbpage').val(), // Nb page
          idPdfFile,
          data[i][5],
-         0
+         0,
+         '<i class="fas fa-trash text-danger rm-danger"></i>'
        ]).draw();
+       setupRemoveVoice();
     }
   });
   $('#save-pdfvoice').on('click',function(){
     //Update PageStart for reccords
     let m = new Map();
 
-    data = tablevoices.rows({order:'applied'}).data().toArray();
+    data = tablevoices.rows({order:'applied'}).data().toArray().slice(0);
+    console.log(tablevoices.rows({order:'applied'}).data().toArray())
     for (let i=0;i<data.length;i++){
+      data[i] = data[i].slice(0)
       if(!(data[i][6] in m)){
         m[data[i][6]] = 1
       }
@@ -410,8 +419,14 @@ $(document).ready( function () {
       m[data[i][6]] = parseInt(data[i][5]) + parseInt(m[data[i][6]])
 
       data[i][8] = parseInt(data[i][8])
-    }
 
+      // Limit amount of data transmitted
+      data[i].splice(9,1)
+      data[i].splice(0,4)
+    }
+    // TODO Possibility to improve dobble add after voice addition
+
+    console.log(data)
     Rails.ajax({
       type: "POST",
       url: "/pieces/<%= @piece.id %>/config_file",
