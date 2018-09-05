@@ -168,49 +168,55 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <%= link_to(pieces_path, class: 'nav-link' ) do %>
+            <%= link_to(pieces_path, class: controllerActive?('pieces')+'nav-link' ) do %>
               <i class="fas fa-file nav-icon"></i>
               <p>Pieces of music</p>
             <% end %>
           </li>
 
           <li class="nav-item">
-            <%= link_to(publishing_houses_path, class: 'nav-link' ) do %>
+            <%= link_to(publishing_houses_path, class: controllerActive?('publishing_houses')+'nav-link' ) do %>
               <i class="fas fa-music nav-icon"></i>
               <p>Publishing House</p>
             <% end %>
           </li>
 
           <li class="nav-item">
-            <%= link_to(storages_path, class: 'nav-link' ) do %>
+            <%= link_to(storages_path, class: controllerActive?('storages')+'nav-link' ) do %>
               <i class="nav-icon fas fa-archive"></i>
               <p>Storage</p>
             <% end %>
           </li>
 
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview<%= controllerClass?(' menu-open', 'storage_types','voices','genres','compositors') %>">
+            <a href="#" class="<%= controllerActive?('storage_types','voices','genres','compositors') %>nav-link">
               <i class="nav-icon fas fa-sliders-h"></i>
               <p>
                 Settings
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview" style="display: none;">
+            <ul class="nav nav-treeview">
               <li class="nav-item">
-                <%= link_to(storage_types_path, class: 'nav-link' ) do %>
+                <%= link_to(storage_types_path, class: controllerActive?('storage_types')+'nav-link'   ) do %>
                   <i class="fas fa-boxes nav-icon"></i>
                   <p>Storage type</p>
                 <% end %>
               </li>
               <li class="nav-item">
-                <%= link_to(voices_path, class: 'nav-link' ) do %>
+                <%= link_to(voices_path, class: controllerActive?('voices')++'nav-link' ) do %>
                   <i class="fas fa-drum nav-icon"></i>
                   <p>Voices</p>
                 <% end %>
               </li>
               <li class="nav-item">
-                <%= link_to(compositors_path, class: 'nav-link' ) do %>
+                <%= link_to(genres_path, class: controllerActive?('genres')++'nav-link' ) do %>
+                  <i class="fas fa-th-large nav-icon"></i>
+                  <p>Genres</p>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to(compositors_path, class: controllerActive?('compositors')++'nav-link' ) do %>
                   <i class="fas fa-male nav-icon"></i>
                   <p>Compositors</p>
                 <% end %>

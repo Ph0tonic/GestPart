@@ -110,12 +110,12 @@
             <h5 class="card-title">Scans</h5>
           </div>
           <div class="card-body">
-            <table class="table table-bordered table-hover" id="table-files">
+            <table class="table table-bordered table-hover" id="table-voices">
               <thead>
                 <tr>
-                  <th class="sorting" tabindex="0" aria-controls="voices-table" rowspan="1" colspan="1" aria-label="Voice">Voice</th>
-                  <th class="sorting" tabindex="0" aria-controls="voices-table" rowspan="1" colspan="1" aria-label="Number">Number</th>
-                  <th class="sorting" tabindex="0" aria-controls="voices-table" rowspan="1" colspan="1" aria-label="Number">Key</th>
+                  <th class="sorting" aria-controls="voices-table" aria-label="Voice">Voice</th>
+                  <th class="sorting" aria-controls="voices-table" aria-label="Number">Number</th>
+                  <th class="sorting" aria-controls="voices-table" aria-label="Key">Key</th>
                   <th>Actions</th>
                   <th class="d-none">id</th>
                 </tr>
@@ -129,6 +129,7 @@
                   <td>
                     <a href="/pdf_voices/<%= row['pdf_voice_id'] %>/download"><i class="fas fa-file-download"></i></a>
                     <a class="send-link" href="#" data-toggle="modal" data-target="#sendModal" data-value="<%= row['pdf_voice_id'] %>"><i class="far fa-envelope"></i></a>
+                  </td>
                   <td class="d-none"><%= row['pdf_voice_id'] %></td>
                 </tr>
                 <% end %>
@@ -179,7 +180,6 @@
     </div>
   </div>
 </div>
-
 
 <script>
 let init = function(){
@@ -250,6 +250,7 @@ let init = function(){
       console.log("Removed item : " + event.item)
     });
   })
+  $('#table-voices').DataTable({responsive: true});
 }
 
 init();
