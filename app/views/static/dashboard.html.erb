@@ -1,0 +1,94 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Dashboard</h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item active">Home</li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3><%= Piece.count %></h3>
+
+            <p>Pieces</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-file"></i>
+          </div>
+          <%= link_to(pieces_path, class: 'small-box-footer' ) do %>
+            More info <i class="fa fa-arrow-circle-right"></i>
+          <% end %>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3><%= Storage.count %></h3>
+
+            <p>Storages</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-archive"></i>
+          </div>
+          <%= link_to(storages_path, class: 'small-box-footer' ) do %>
+            More info <i class="fa fa-arrow-circle-right"></i>
+          <% end %>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+          <div class="inner">
+            <h3><%= Genre.count %></h3>
+
+            <p>Genres</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-th-large"></i>
+          </div>
+          <%= link_to(genres_path, class: 'small-box-footer' ) do %>
+            More info <i class="fa fa-arrow-circle-right"></i>
+          <% end %>
+        </div>
+      </div>
+      <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3><%= Compositor.count %></h3>
+
+            <p>Compositors</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-male"></i>
+          </div>
+          <%= link_to(compositors_path, class: 'small-box-footer' ) do %>
+            More info <i class="fa fa-arrow-circle-right"></i>
+          <% end %>
+        </div>
+      </div>
+      <!-- ./col -->
+    </div>
+    <!-- ./row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
