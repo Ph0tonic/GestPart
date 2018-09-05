@@ -5,7 +5,7 @@ class Piece < ApplicationRecord
   has_many :pdf_files
   has_many :pdf_voices, through: :pdf_files
   has_many :compositors, through: :compositions
-  has_many :compositions
+  has_many :compositions, dependent: :destroy
   attr_accessor :pdf_file_data
   validates :title, presence: true,
                     length: { minimum: 1 }

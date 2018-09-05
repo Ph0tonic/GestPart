@@ -1,5 +1,5 @@
 class PdfVoicesController < ApplicationController
-  before_action :set_piece, only: [:show, :edit, :update, :destroy, :download]
+  before_action :set_piece, only: [:show, :edit, :update, :destroy, :download, :send_email]
 
   # GET /pieces
   # GET /pieces.json
@@ -99,23 +99,30 @@ class PdfVoicesController < ApplicationController
 
   def download
     pdf = CombinePDF.new
-
-    logger.info "File path : "
-    logger.info @pdf_voice.pdf_file.attachement.path
-
     source = CombinePDF.load(@pdf_voice.pdf_file.attachement.path)
+
     i = 0
-
-
-    logger.info "Nb pages : "
-    logger.info @pdf_voice.nb_page
     while i<@pdf_voice.nb_page do
-      logger.info "Add one page"
       pdf << source.pages[@pdf_voice.start_page-1+i]
       i+=1
     end
 
     send_data pdf.to_pdf, filename: "combined.pdf", type: "application/pdf"
+  end
+
+  def send_email
+    pdf = CombinePDF.new
+    source = CombinePDF.load(@pdf_voice.pdf_file.attachement.path)
+
+    i = 0
+    while i<@pdf_voice.nb_page do
+      pdf << source.pages[@pdf_voice.start_page-1+i]
+      i+=1
+    end
+
+    PdfMailer.send_pdf_file(params['email'], params['subject'], pdf.to_pdf).deliver!
+
+    redirect_to "/pieces/"+@pdf_voice.pdf_file.piece_id.to_s+"/"
   end
 
   private
@@ -126,6 +133,6 @@ class PdfVoicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def piece_params
-      params.require(:pdf_voice).permit() #:title, :distribution, :no, :divers, :publishing_house_id, :voices, :storage_id, :pdf_file_data => [])
+      params.require(:pdf_voice).permit(:email, :subject ) #:title, :distribution, :no, :divers, :publishing_house_id, :voices, :storage_id, :to, :subject, :pdf_file_data => [])
     end
 end

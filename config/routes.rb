@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :pdf_voices do
     member do
       get 'download'
+      post 'send_email'
     end
   end
 
